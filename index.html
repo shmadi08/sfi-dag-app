@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SFI Dag - Svenska dag för dag Companion</title>
+<title>SFI Dag - Svenska dag för dag</title>
 <style>
 :root {
   --primary: #e63946;
@@ -12,44 +12,58 @@
   --card: #ffffff;
   --text: #1d3557;
   --success: #2a9d8f;
+  --warning: #e9c46a;
 }
 * { box-sizing: border-box; }
-body { font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; background: var(--bg); color: var(--text); }
-header { background: linear-gradient(135deg, #1d3557, #457b9d); color: white; padding: 1.5rem; text-align: center; }
-header h1 { margin: 0; font-size: 1.8rem; }
-.container { max-width: 1000px; margin: 0 auto; padding: 1rem; }
+body { font-family: system-ui, -apple-system, sans-serif; margin: 0; background: var(--bg); color: var(--text); }
+header { background: linear-gradient(135deg, #1d3557, #457b9d); color: white; padding: 1.2rem; text-align: center; }
+header h1 { margin: 0; font-size: 1.6rem; }
+.score { font-size: 0.9rem; opacity: 0.9; }
+.container { max-width: 900px; margin: 0 auto; padding: 1rem; }
 .nav { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0; }
-.nav button { background: white; border: 2px solid var(--secondary); color: var(--secondary); padding: 0.6rem 1rem; border-radius: 20px; cursor: pointer; font-weight: 600; }
+.nav button { background: white; border: 2px solid var(--secondary); color: var(--secondary); padding: 0.5rem 0.9rem; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
 .nav button.active { background: var(--secondary); color: white; }
-.day-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; overflow-x: auto; }
-.day-tabs button { flex: 1; min-width: 100px; padding: 0.7rem; border: none; background: #e9ecef; border-radius: 8px; cursor: pointer; font-weight: 500; }
+.day-tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; overflow-x: auto; }
+.day-tabs button { flex: 1; min-width: 80px; padding: 0.6rem; border: none; background: #e9ecef; border-radius: 8px; cursor: pointer; font-weight: 500; }
 .day-tabs button.active { background: var(--primary); color: white; }
-.card { background: var(--card); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-.vocab-item { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem; border-bottom: 1px solid #eee; cursor: pointer; }
+.card { background: var(--card); border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+.vocab-item { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem; border-bottom: 1px solid #eee; cursor: pointer; }
 .vocab-item:hover { background: #f1f8ff; }
-.vocab-word { font-weight: bold; font-size: 1.1rem; }
-.meanings { font-size: 0.9rem; color: #555; }
-.popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 1000; max-width: 90%; display: none; }
+.vocab-word { font-weight: bold; font-size: 1.05rem; }
+.meanings { font-size: 0.85rem; color: #555; }
+.popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); z-index: 1000; max-width: 92%; width: 340px; display: none; }
 .popup.show { display: block; }
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 999; display: none; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 999; display: none; }
 .overlay.show { display: block; }
-.btn { background: var(--primary); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; }
+.btn { background: var(--primary); color: white; border: none; padding: 0.55rem 1.1rem; border-radius: 8px; cursor: pointer; font-size: 0.95rem; }
 .btn.secondary { background: var(--secondary); }
-.progress { height: 8px; background: #e9ecef; border-radius: 4px; margin: 1rem 0; }
-.progress-bar { height: 100%; background: var(--success); width: 0%; border-radius: 4px; transition: width 0.3s; }
-textarea { width: 100%; min-height: 150px; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
-.reading-text { line-height: 1.8; font-size: 1.05rem; }
-.reading-text span.word { cursor: pointer; border-bottom: 1px dashed #ccc; }
-.reading-text span.word:hover { background: #fff3cd; }
-.grammar-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-.grammar-table th, .grammar-table td { border: 1px solid #ddd; padding: 0.5rem; text-align: center; }
+.btn.success { background: var(--success); }
+.btn:disabled { opacity: 0.5; }
+.reading-text { line-height: 1.85; font-size: 1.05rem; }
+.reading-text span.word { cursor: pointer; border-bottom: 1px dashed #aaa; padding: 0 2px; }
+.reading-text span.word:hover, .reading-text span.word.known { background: #fff3cd; }
+.grammar-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+.grammar-table th, .grammar-table td { border: 1px solid #ddd; padding: 0.45rem; text-align: center; }
 .grammar-table th { background: #f1f8ff; }
+.quiz-option { display: block; width: 100%; text-align: left; margin: 0.4rem 0; padding: 0.7rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; }
+.quiz-option:hover { border-color: var(--secondary); }
+.quiz-option.correct { background: #d4edda; border-color: var(--success); }
+.quiz-option.wrong { background: #f8d7da; border-color: var(--primary); }
+.flashcard { background: white; border-radius: 12px; padding: 2rem 1rem; text-align: center; min-height: 180px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 1rem 0; }
+.flashcard .front { font-size: 1.8rem; font-weight: bold; }
+.flashcard .back { display: none; }
+.flashcard.flipped .front { display: none; }
+.flashcard.flipped .back { display: block; }
+.progress { height: 8px; background: #e9ecef; border-radius: 4px; margin: 0.8rem 0; }
+.progress-bar { height: 100%; background: var(--success); width: 0%; border-radius: 4px; transition: width 0.3s; }
+textarea { width: 100%; min-height: 140px; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1rem; }
+.model-answer { background: #f0f7ff; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-size: 0.95rem; }
 </style>
 </head>
 <body>
 <header>
   <h1>SFI Dag</h1>
-  <p>Companion app for Svenska dag för dag – Kurs D | Personal use</p>
+  <div class="score" id="scoreDisplay">امتیاز: 0</div>
 </header>
 <div class="container">
   <div class="nav" id="weekNav"></div>
@@ -61,7 +75,7 @@ textarea { width: 100%; min-height: 150px; padding: 0.8rem; border: 1px solid #d
   <h3 id="popWord"></h3>
   <p><strong>فارسی:</strong> <span id="popFa"></span></p>
   <p><strong>English:</strong> <span id="popEn"></span></p>
-  <p><strong>Example:</strong> <span id="popEx"></span></p>
+  <p><strong>مثال:</strong> <span id="popEx"></span></p>
   <button class="btn" onclick="speakWord()">🔊 تلفظ</button>
   <button class="btn secondary" onclick="closePopup()">بستن</button>
 </div>
@@ -76,7 +90,7 @@ const weeks = {
       mån: { title: "Måndag – Ordkunskap och läsning", type: "vocab-reading" },
       tis: { title: "Tisdag – Ordkunskap och läsning", type: "vocab-reading" },
       ons: { title: "Onsdag – Grammatik", type: "grammar" },
-      tors: { title: "Torsdag – Grammatik + Skriv", type: "writing" },
+      tors: { title: "Torsdag – Skriv", type: "writing" },
       fre: { title: "Fredag – Hör och tal", type: "listening" }
     }
   }
@@ -135,11 +149,23 @@ const texts = {
 let currentWeek = 1;
 let currentDay = 'mån';
 let currentWord = '';
+let score = parseInt(localStorage.getItem('sfi-score') || '0');
 
 function init() {
+  updateScore();
   renderWeekNav();
   renderDayTabs();
   renderContent();
+}
+
+function updateScore() {
+  document.getElementById('scoreDisplay').textContent = `امتیاز: ${score}`;
+  localStorage.setItem('sfi-score', score);
+}
+
+function addScore(points) {
+  score += points;
+  updateScore();
 }
 
 function renderWeekNav() {
@@ -179,13 +205,14 @@ function renderContent() {
     content.innerHTML = `
       <div class="card">
         <h2>${weeks[1].days[currentDay].title}</h2>
-        <div class="progress"><div class="progress-bar" style="width: 40%"></div></div>
-        <h3>لغات جدید</h3>
+        <div class="progress"><div class="progress-bar" style="width: 30%"></div></div>
+        <h3>لغات جدید <button class="btn secondary" style="float:right; font-size:0.8rem" onclick="startFlashcards()">فلش‌کارت</button></h3>
         <div id="vocabList"></div>
-        <h3 style="margin-top:2rem">متن خواندن (روی کلمات کلیک کنید)</h3>
+        <h3 style="margin-top:1.5rem">متن خواندن (روی کلمات کلیک کنید)</h3>
         <div class="reading-text" id="readingText"></div>
         <div style="margin-top:1rem">
-          <a href="https://svenskadagfordag.se/ljud/ljud-svenska-dag-for-dag-d/vecka-1-d/" target="_blank" class="btn secondary">🎧 گوش دادن به صوت رسمی</a>
+          <a href="https://svenskadagfordag.se/ljud/ljud-svenska-dag-for-dag-d/vecka-1-d/" target="_blank" class="btn secondary">🎧 صوت رسمی</a>
+          <button class="btn" onclick="startVocabQuiz()">تمرین لغات</button>
         </div>
       </div>
     `;
@@ -197,32 +224,39 @@ function renderContent() {
         <h2>Onsdag – Grammatik: Indefinita pronomen</h2>
         <p>Indefinita pronomen uttrycker någonting obestämt om personer eller saker.</p>
         <table class="grammar-table">
-          <tr><th colspan="3">Attributiva (med substantiv)</th><th colspan="2">Självständiga</th></tr>
+          <tr><th colspan="3">Attributiva</th><th colspan="2">Självständiga</th></tr>
           <tr><th>En</th><th>Ett</th><th>Plural</th><th>Personer</th><th>Saker</th></tr>
           <tr><td>någon</td><td>något</td><td>några</td><td>någon, några</td><td>något, någonting</td></tr>
           <tr><td>ingen</td><td>inget</td><td>inga</td><td>ingen, inga</td><td>inget, ingenting</td></tr>
           <tr><td>annan</td><td>annat</td><td>andra</td><td>annan, andra</td><td>annat</td></tr>
           <tr><td>all</td><td>allt</td><td>alla</td><td>alla</td><td>allt, allting</td></tr>
         </table>
-        <h3>تمرین</h3>
-        <p>1. Vi har ________ bra utsikt.</p>
-        <p>2. Jag kan inte sova med ________ oväsen.</p>
-        <p>3. Han kommer från ett ________ land.</p>
-        <button class="btn" onclick="alert('پاسخ‌ها در کتاب و facit موجود است. بعداً می‌توانیم quiz اضافه کنیم.')">بررسی پاسخ‌ها</button>
+        <h3>تمرین تعاملی</h3>
+        <div id="grammarQuiz"></div>
       </div>
     `;
+    renderGrammarQuiz();
   } else if (currentDay === 'tors') {
     content.innerHTML = `
       <div class="card">
         <h2>Torsdag – Skrivövning: Din bostad</h2>
-        <p>Svara på brevet:</p>
-        <blockquote style="background:#f8f9fa; padding:1rem; border-radius:8px;">
-          Hej min vän!<br>
-          Jag hörde att du hade flyttat till ett nytt bostadsområde – stort grattis! Hoppas att du trivs i din nya bostad. Jag kommer också att flytta till samma område nästa månad, så jag undrar om du kunde hjälpa mig med några råd och tips? Hur gjorde du när du flyttade? Vad tycker du att jag behöver tänka på innan jag flyttar? Är området fint eller finns det saker som du är missnöjd med?<br>
-          Kram<br>Din vän
-        </blockquote>
-        <textarea placeholder="Skriv ditt svar här... (minst 80-100 ord)"></textarea>
-        <button class="btn" style="margin-top:1rem" onclick="alert('نوشته شما ذخیره شد. می‌توانید آن را با معلم یا همسرتان بررسی کنید.')">ذخیره نوشته</button>
+        <p><strong>ساختار نامه:</strong></p>
+        <ul>
+          <li>Hälsning (Hej ...)</li>
+          <li>Tack / gratulera</li>
+          <li>Svara på frågorna: hur du flyttade, tips, vad som är bra/dåligt</li>
+          <li>Avslutning (Kram / Med vänlig hälsning)</li>
+        </ul>
+        <div class="model-answer">
+          <strong>نمونه جواب کوتاه:</strong><br>
+          Hej!<br>
+          Tack för ditt brev och grattis till flytten! När jag flyttade planerade jag allt i förväg och packade sakerna i lådor. Tänk på att kolla avståndet till tunnelbanan och butiker. Området är trevligt men lite dyrt. Hoppas du trivs!<br>
+          Kram
+        </div>
+        <p>حالا خودتان بنویسید (حداقل ۸۰ کلمه):</p>
+        <textarea id="writingArea" placeholder="Skriv ditt svar här..."></textarea>
+        <button class="btn" style="margin-top:0.8rem" onclick="checkWriting()">بررسی نوشته</button>
+        <div id="writingFeedback" style="margin-top:1rem"></div>
       </div>
     `;
   } else if (currentDay === 'fre') {
@@ -232,12 +266,13 @@ function renderContent() {
         <p>گوش دادن به صوت رسمی و پاسخ به سوالات کتاب.</p>
         <a href="https://svenskadagfordag.se/ljud/ljud-svenska-dag-for-dag-d/vecka-1-hoeroevningar-d/" target="_blank" class="btn">🎧 Hörövningar Vecka 1</a>
         <h3 style="margin-top:1.5rem">تمرین صحبت کردن</h3>
-        <p>با همسرتان در مورد این موضوعات صحبت کنید:</p>
+        <p>با همسرتان در مورد این موضوعات صحبت کنید (حداقل ۲ دقیقه هر کدام):</p>
         <ul>
           <li>Hur bor du just nu?</li>
           <li>Vad är viktigt för dig när du väljer bostad?</li>
           <li>Vad tycker du om bostadsbristen i Sverige?</li>
         </ul>
+        <button class="btn success" onclick="addScore(10); alert('+10 امتیاز برای تمرین صحبت کردن!')">انجام دادم</button>
       </div>
     `;
   }
@@ -245,6 +280,7 @@ function renderContent() {
 
 function renderVocab() {
   const list = document.getElementById('vocabList');
+  if (!list) return;
   list.innerHTML = '';
   vocab[currentDay].forEach(v => {
     const div = document.createElement('div');
@@ -257,14 +293,18 @@ function renderVocab() {
 
 function renderReading() {
   const el = document.getElementById('readingText');
+  if (!el) return;
   let html = texts[currentDay];
-  vocab[currentDay].forEach(v => {
-    const regex = new RegExp(`\\b(${v.sv.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})\\b`, 'gi');
-    html = html.replace(regex, `<span class="word" data-word="${v.sv}">$1</span>`);
+  const sortedVocab = [...vocab[currentDay]].sort((a, b) => b.sv.length - a.sv.length);
+  sortedVocab.forEach(v => {
+    const escaped = v.sv.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escaped})`, 'gi');
+    html = html.replace(regex, `<span class="word known" data-word="${v.sv}">$1</span>`);
   });
   el.innerHTML = html.replace(/\n/g, '<br>');
   el.querySelectorAll('.word').forEach(span => {
-    span.onclick = () => {
+    span.onclick = (e) => {
+      e.stopPropagation();
       const word = span.dataset.word;
       const v = vocab[currentDay].find(x => x.sv.toLowerCase() === word.toLowerCase());
       if (v) showPopup(v);
@@ -288,10 +328,147 @@ function closePopup() {
 }
 
 function speakWord() {
+  if (!currentWord) return;
   const utter = new SpeechSynthesisUtterance(currentWord);
   utter.lang = 'sv-SE';
-  utter.rate = 0.85;
+  utter.rate = 0.8;
   speechSynthesis.speak(utter);
+}
+
+let flashIndex = 0;
+let flashCards = [];
+function startFlashcards() {
+  flashCards = [...vocab[currentDay]];
+  flashIndex = 0;
+  const content = document.getElementById('content');
+  content.innerHTML = `
+    <div class="card">
+      <h2>فلش‌کارت - ${currentDay}</h2>
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="front" id="flashFront"></div>
+        <div class="back" id="flashBack"></div>
+      </div>
+      <div style="text-align:center">
+        <button class="btn secondary" onclick="nextFlash(-1)">قبلی</button>
+        <button class="btn" onclick="nextFlash(1)">بعدی</button>
+        <button class="btn success" onclick="knowCard()">بلد بودم (+5)</button>
+      </div>
+      <p id="flashProgress" style="text-align:center; margin-top:1rem"></p>
+      <button class="btn secondary" onclick="renderContent()">بازگشت</button>
+    </div>
+  `;
+  showFlash();
+}
+
+function showFlash() {
+  if (flashIndex >= flashCards.length) flashIndex = 0;
+  if (flashIndex < 0) flashIndex = flashCards.length - 1;
+  const v = flashCards[flashIndex];
+  document.getElementById('flashFront').textContent = v.sv;
+  document.getElementById('flashBack').innerHTML = `<strong>${v.fa}</strong><br>${v.en}<br><small>${v.ex}</small>`;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('flashProgress').textContent = `${flashIndex + 1} / ${flashCards.length}`;
+}
+
+function flipCard() {
+  document.getElementById('flashcard').classList.toggle('flipped');
+}
+
+function nextFlash(dir) {
+  flashIndex += dir;
+  showFlash();
+}
+
+function knowCard() {
+  addScore(5);
+  nextFlash(1);
+}
+
+function startVocabQuiz() {
+  const items = vocab[currentDay];
+  const q = items[Math.floor(Math.random() * items.length)];
+  const options = [q];
+  while (options.length < 4) {
+    const rand = items[Math.floor(Math.random() * items.length)];
+    if (!options.find(o => o.sv === rand.sv)) options.push(rand);
+  }
+  options.sort(() => Math.random() - 0.5);
+  const content = document.getElementById('content');
+  content.innerHTML = `
+    <div class="card">
+      <h2>تمرین لغات</h2>
+      <p>معنی این کلمه چیست؟</p>
+      <h3 style="text-align:center">${q.sv}</h3>
+      <div id="quizOptions"></div>
+      <button class="btn secondary" style="margin-top:1rem" onclick="renderContent()">بازگشت</button>
+    </div>
+  `;
+  const optsEl = document.getElementById('quizOptions');
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt.fa;
+    btn.onclick = () => {
+      if (opt.sv === q.sv) {
+        btn.classList.add('correct');
+        addScore(10);
+        setTimeout(() => startVocabQuiz(), 800);
+      } else {
+        btn.classList.add('wrong');
+      }
+    };
+    optsEl.appendChild(btn);
+  });
+}
+
+function renderGrammarQuiz() {
+  const questions = [
+    { q: "Vi har ________ bra utsikt.", answer: "en", options: ["en", "ett", "någon", "något"] },
+    { q: "Jag kan inte sova med ________ oväsen.", answer: "detta", options: ["detta", "något", "inget", "allt"] },
+    { q: "Han kommer från ett ________ land.", answer: "annat", options: ["annan", "annat", "andra", "allt"] },
+    { q: "________ av dem har råd att köpa bostad.", answer: "Ingen", options: ["Ingen", "Någon", "Alla", "Annan"] }
+  ];
+  let html = '';
+  questions.forEach((item, i) => {
+    html += `<p><strong>${i+1}. ${item.q}</strong></p><div id="gq${i}"></div>`;
+  });
+  document.getElementById('grammarQuiz').innerHTML = html;
+  questions.forEach((item, i) => {
+    const div = document.getElementById('gq' + i);
+    item.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.textContent = opt;
+      btn.onclick = () => {
+        if (opt.toLowerCase() === item.answer.toLowerCase()) {
+          btn.classList.add('correct');
+          addScore(8);
+        } else {
+          btn.classList.add('wrong');
+        }
+      };
+      div.appendChild(btn);
+    });
+  });
+}
+
+function checkWriting() {
+  const text = document.getElementById('writingArea').value.trim();
+  const words = text.split(/\s+/).filter(w => w.length > 0).length;
+  let fb = '';
+  if (words < 60) {
+    fb = `<p style="color:#e63946">تعداد کلمات کم است (${words}). حداقل ۸۰ کلمه بنویسید.</p>`;
+  } else {
+    fb = `<p style="color:#2a9d8f">خوب است! (${words} کلمه). +15 امتیاز</p>`;
+    addScore(15);
+  }
+  const hasGreeting = /hej|hallå/i.test(text);
+  const hasClosing = /kram|hälsning|vänlig/i.test(text);
+  fb += `<ul>
+    <li>${hasGreeting ? '✅' : '❌'} سلام (Hej)</li>
+    <li>${hasClosing ? '✅' : '❌'} خداحافظی (Kram / hälsning)</li>
+  </ul>`;
+  document.getElementById('writingFeedback').innerHTML = fb;
 }
 
 init();
