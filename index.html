@@ -5,35 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SFI Dag</title>
 <style>
-body { font-family: system-ui, sans-serif; margin: 0; background: #f8f9fa; color: #1d3557; }
-header { background: linear-gradient(135deg, #1d3557, #457b9d); color: white; padding: 1.2rem; text-align: center; }
-header h1 { margin: 0; }
-.container { max-width: 900px; margin: 0 auto; padding: 1rem; }
-.nav { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0; }
-.nav button { background: white; border: 2px solid #457b9d; color: #457b9d; padding: 0.5rem 0.9rem; border-radius: 20px; cursor: pointer; font-weight: 600; }
-.nav button.active { background: #457b9d; color: white; }
-.day-tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
-.day-tabs button { flex: 1; padding: 0.6rem; border: none; background: #e9ecef; border-radius: 8px; cursor: pointer; }
-.day-tabs button.active { background: #e63946; color: white; }
-.card { background: white; border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-.vocab-item { padding: 0.7rem; border-bottom: 1px solid #eee; cursor: pointer; }
-.vocab-item:hover { background: #f1f8ff; }
-.vocab-word { font-weight: bold; }
-.meanings { font-size: 0.85rem; color: #555; }
-.popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); z-index: 1000; max-width: 92%; width: 360px; display: none; }
-.popup.show { display: block; }
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 999; display: none; }
-.overlay.show { display: block; }
-.btn { background: #e63946; color: white; border: none; padding: 0.55rem 1.1rem; border-radius: 8px; cursor: pointer; margin: 0.2rem; }
-.btn.secondary { background: #457b9d; }
-.ipa { font-family: monospace; color: #666; }
+:root { --primary:#e63946; --secondary:#457b9d; --bg:#f8f9fa; --card:#fff; --text:#1d3557; --success:#2a9d8f; }
+* { box-sizing:border-box; }
+body { font-family:system-ui,sans-serif; margin:0; background:var(--bg); color:var(--text); }
+header { background:linear-gradient(135deg,#1d3557,#457b9d); color:white; padding:1.2rem; text-align:center; }
+header h1 { margin:0; font-size:1.6rem; }
+.container { max-width:900px; margin:0 auto; padding:1rem; }
+.nav { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0; }
+.nav button { background:white; border:2px solid var(--secondary); color:var(--secondary); padding:.5rem .9rem; border-radius:20px; cursor:pointer; font-weight:600; font-size:.9rem; }
+.nav button.active { background:var(--secondary); color:white; }
+.day-tabs { display:flex; gap:.4rem; margin-bottom:1rem; overflow-x:auto; }
+.day-tabs button { flex:1; min-width:70px; padding:.6rem; border:none; background:#e9ecef; border-radius:8px; cursor:pointer; font-weight:500; }
+.day-tabs button.active { background:var(--primary); color:white; }
+.card { background:var(--card); border-radius:12px; padding:1.2rem; margin-bottom:1rem; box-shadow:0 2px 10px rgba(0,0,0,.08); }
+.vocab-item { padding:.7rem; border-bottom:1px solid #eee; cursor:pointer; display:flex; justify-content:space-between; }
+.vocab-item:hover { background:#f1f8ff; }
+.vocab-word { font-weight:bold; }
+.meanings { font-size:.85rem; color:#555; }
+.popup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:1.5rem; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,.25); z-index:1000; max-width:92%; width:380px; display:none; }
+.popup.show { display:block; }
+.overlay { position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:999; display:none; }
+.overlay.show { display:block; }
+.btn { background:var(--primary); color:white; border:none; padding:.55rem 1rem; border-radius:8px; cursor:pointer; font-size:.9rem; margin:.2rem; }
+.btn.secondary { background:var(--secondary); }
+.btn.success { background:var(--success); }
+.reading-text { line-height:1.9; font-size:1.05rem; }
+.reading-text span.word { cursor:pointer; border-bottom:1px dashed #ccc; }
+.reading-text span.word:hover { background:#fff3cd; }
+.flashcard { background:white; border-radius:12px; padding:2rem 1rem; text-align:center; min-height:180px; display:flex; flex-direction:column; justify-content:center; cursor:pointer; box-shadow:0 4px 15px rgba(0,0,0,.1); margin:1rem 0; }
+.flashcard .front { font-size:1.8rem; font-weight:bold; }
+.flashcard .back { display:none; }
+.flashcard.flipped .front { display:none; }
+.flashcard.flipped .back { display:block; }
+.quiz-option { display:block; width:100%; text-align:left; margin:.4rem 0; padding:.7rem; border:2px solid #ddd; border-radius:8px; background:white; cursor:pointer; }
+.quiz-option.correct { background:#d4edda; border-color:var(--success); }
+.quiz-option.wrong { background:#f8d7da; border-color:var(--primary); }
+.structure { background:#fff8e6; padding:1rem; border-radius:8px; margin:1rem 0; }
+.model-answer { background:#f0f7ff; padding:1rem; border-radius:8px; margin:1rem 0; }
+textarea { width:100%; min-height:140px; padding:.8rem; border:1px solid #ddd; border-radius:8px; font-family:inherit; }
+.ipa { font-family:monospace; color:#666; }
 </style>
 </head>
 <body>
-<header>
-  <h1>SFI Dag</h1>
-  <div id="scoreDisplay">امتیاز: 0</div>
-</header>
+<header><h1>SFI Dag</h1><div id="scoreDisplay">امتیاز: 0</div></header>
 <div class="container">
   <div class="nav" id="weekNav"></div>
   <div class="day-tabs" id="dayTabs"></div>
@@ -46,6 +60,7 @@ header h1 { margin: 0; }
   <p><strong>فارسی:</strong> <span id="popFa"></span></p>
   <p><strong>English:</strong> <span id="popEn"></span></p>
   <p><strong>مثال:</strong> <span id="popEx"></span></p>
+  <p><strong>ترجمه مثال:</strong> <span id="popExFa"></span></p>
   <button class="btn" onclick="speakWord()">🔊 تلفظ</button>
   <button class="btn secondary" onclick="openWiktionary()">📖 Wiktionary</button>
   <button class="btn secondary" onclick="closePopup()">بستن</button>
@@ -53,27 +68,73 @@ header h1 { margin: 0; }
 <script>
 const vocab = {
   mån: [
-    { sv: "överens", fa: "موافق", en: "in agreement", ipa: "/ˈøːvəˌrɛns/", ex: "De flesta är överens." },
-    { sv: "råda", fa: "وجود داشتن", en: "to prevail", ipa: "/ˈroːda/", ex: "Det råder brist." },
-    { sv: "brist", fa: "کمبود", en: "shortage", ipa: "/brɪst/", ex: "En brist på bostäder." },
-    { sv: "räcka", fa: "کافی بودن", en: "to be enough", ipa: "/ˈrɛka/", ex: "Det räcker inte." },
-    { sv: "inneboende", fa: "مستاجر", en: "lodger", ipa: "/ˈɪnəˌbuːəndə/", ex: "Han är inneboende." }
+    {sv:"överens", fa:"موافق، هم‌نظر", en:"in agreement", ipa:"/ˈøːvəˌrɛns/", ex:"De flesta är överens.", exFa:"اکثر موافق هستند."},
+    {sv:"råda", fa:"وجود داشتن", en:"to prevail", ipa:"/ˈroːda/", ex:"Det råder brist.", exFa:"کمبود وجود دارد."},
+    {sv:"brist", fa:"کمبود", en:"shortage", ipa:"/brɪst/", ex:"En brist på bostäder.", exFa:"کمبود مسکن."},
+    {sv:"räcka", fa:"کافی بودن", en:"to be enough", ipa:"/ˈrɛka/", ex:"Det räcker inte.", exFa:"کافی نیست."},
+    {sv:"inneboende", fa:"مستاجر", en:"lodger", ipa:"/ˈɪnəˌbuːəndə/", ex:"Han är inneboende.", exFa:"او مستاجر است."},
+    {sv:"befolkning", fa:"جمعیت", en:"population", ipa:"/bɛˈfɔlknɪŋ/", ex:"Befolkningen ökar.", exFa:"جمعیت افزایش می‌یابد."},
+    {sv:"ökning", fa:"افزایش", en:"increase", ipa:"/ˈøːknɪŋ/", ex:"En ökning.", exFa:"یک افزایش."},
+    {sv:"boendekostnad", fa:"هزینه مسکن", en:"housing cost", ipa:"/ˈbuːəndɛˌkɔstnad/", ex:"Höga boendekostnader.", exFa:"هزینه‌های بالای مسکن."},
+    {sv:"leda till", fa:"منجر شدن به", en:"to lead to", ipa:"/ˈleːda tɪl/", ex:"Det leder till problem.", exFa:"منجر به مشکل می‌شود."},
+    {sv:"ha råd", fa:"استطاعت داشتن", en:"to afford", ipa:"/ha roːd/", ex:"Har inte råd.", exFa:"استطاعت ندارد."}
   ],
   tis: [
-    { sv: "prioritera", fa: "اولویت دادن", en: "to prioritize", ipa: "/priɔrɪˈteːra/", ex: "Vi prioriterar läget." },
-    { sv: "läge", fa: "موقعیت", en: "location", ipa: "/ˈlɛːɡɛ/", ex: "Ett bra läge." },
-    { sv: "utsikt", fa: "منظره", en: "view", ipa: "/ˈʉːtsɪkt/", ex: "Fin utsikt." }
+    {sv:"prioritera", fa:"اولویت دادن", en:"to prioritize", ipa:"/priɔrɪˈteːra/", ex:"Vi prioriterar läget.", exFa:"ما موقعیت را اولویت می‌دهیم."},
+    {sv:"läge", fa:"موقعیت", en:"location", ipa:"/ˈlɛːɡɛ/", ex:"Ett bra läge.", exFa:"یک موقعیت خوب."},
+    {sv:"utsikt", fa:"منظره", en:"view", ipa:"/ˈʉːtsɪkt/", ex:"Fin utsikt.", exFa:"منظره زیبا."},
+    {sv:"stenkast", fa:"فاصله خیلی کم", en:"stone's throw", ipa:"/ˈsteːnˌkast/", ex:"Ett stenkast.", exFa:"فاصله خیلی کم."},
+    {sv:"njuta", fa:"لذت بردن", en:"to enjoy", ipa:"/ˈnjʉːta/", ex:"Njuta av sällskapet.", exFa:"از همراهی لذت بردن."},
+    {sv:"trångt", fa:"تنگ، شلوغ", en:"cramped", ipa:"/trɔŋt/", ex:"Det blir för trångt.", exFa:"خیلی تنگ می‌شود."},
+    {sv:"oväsen", fa:"سروصدا", en:"noise", ipa:"/ˈuːˌvɛːsən/", ex:"Allt oväsen.", exFa:"همه سروصدا."},
+    {sv:"slippa", fa:"معاف شدن از", en:"to avoid", ipa:"/ˈslɪpa/", ex:"Slippa tänka.", exFa:"از فکر کردن معاف شدن."}
   ]
 };
 
+const dictionary = {};
+Object.keys(vocab).forEach(day => {
+  vocab[day].forEach(v => {
+    const key = v.sv.split(' ')[0].toLowerCase();
+    dictionary[key] = v;
+    dictionary[v.sv.toLowerCase()] = v;
+  });
+});
+Object.assign(dictionary, {
+  "flesta": {sv:"flesta", fa:"اکثر", en:"most", ipa:"/ˈflɛːsta/", ex:"De flesta.", exFa:"اکثر."},
+  "nog": {sv:"nog", fa:"احتمالاً", en:"probably", ipa:"/nuːɡ/", ex:"Är nog.", exFa:"احتمالاً است."},
+  "om": {sv:"om", fa:"در مورد", en:"about", ipa:"/ɔm/", ex:"Överens om.", exFa:"موافق در مورد."},
+  "att": {sv:"att", fa:"که / به", en:"that/to", ipa:"/at/", ex:"Att bo.", exFa:"زندگی کردن."},
+  "det": {sv:"det", fa:"آن", en:"it", ipa:"/deːt/", ex:"Det är.", exFa:"آن است."},
+  "är": {sv:"är", fa:"است", en:"is", ipa:"/ɛːr/", ex:"Det är bra.", exFa:"خوب است."},
+  "och": {sv:"och", fa:"و", en:"and", ipa:"/ɔk/", ex:"Mamma och pappa.", exFa:"مامان و بابا."},
+  "en": {sv:"en", fa:"یک", en:"a", ipa:"/ɛn/", ex:"En lägenhet.", exFa:"یک آپارتمان."},
+  "i": {sv:"i", fa:"در", en:"in", ipa:"/iː/", ex:"I Stockholm.", exFa:"در استکهلم."},
+  "på": {sv:"på", fa:"روی", en:"on", ipa:"/poː/", ex:"På balkongen.", exFa:"روی بالکن."},
+  "med": {sv:"med", fa:"با", en:"with", ipa:"/meːd/", ex:"Med vänner.", exFa:"با دوستان."},
+  "för": {sv:"för", fa:"برای", en:"for", ipa:"/føːr/", ex:"För alla.", exFa:"برای همه."},
+  "som": {sv:"som", fa:"که", en:"that", ipa:"/sɔm/", ex:"Som bor.", exFa:"که زندگی می‌کند."},
+  "till": {sv:"till", fa:"به", en:"to", ipa:"/tɪl/", ex:"Till tunnelbanan.", exFa:"به مترو."},
+  "har": {sv:"har", fa:"دارد", en:"has", ipa:"/hɑːr/", ex:"Vi har.", exFa:"ما داریم."},
+  "inte": {sv:"inte", fa:"نه", en:"not", ipa:"/ˈɪntɛ/", ex:"Inte tillräckligt.", exFa:"کافی نیست."},
+  "många": {sv:"många", fa:"خیلی‌ها", en:"many", ipa:"/ˈmɔŋa/", ex:"Många ungdomar.", exFa:"جوانان زیادی."},
+  "bo": {sv:"bo", fa:"زندگی کردن", en:"live", ipa:"/buː/", ex:"Vill bo.", exFa:"می‌خواهد زندگی کند."},
+  "bostad": {sv:"bostad", fa:"مسکن", en:"housing", ipa:"/ˈbuːstɑːd/", ex:"Egen bostad.", exFa:"مسکن خود."},
+  "lägenhet": {sv:"lägenhet", fa:"آپارتمان", en:"apartment", ipa:"/ˈlɛːɡənˌheːt/", ex:"En lägenhet.", exFa:"یک آپارتمان."},
+  "storstaden": {sv:"storstaden", fa:"شهر بزرگ", en:"big city", ipa:"/ˈstuːrˌstɑːdən/", ex:"I storstaden.", exFa:"در شهر بزرگ."},
+  "föräldrar": {sv:"föräldrar", fa:"والدین", en:"parents", ipa:"/ˈføːrˌɛldrar/", ex:"Hos föräldrar.", exFa:"نزد والدین."},
+  "kompis": {sv:"kompis", fa:"دوست", en:"friend", ipa:"/ˈkɔmpɪs/", ex:"En kompis.", exFa:"یک دوست."},
+  "jobb": {sv:"jobb", fa:"کار", en:"job", ipa:"/jɔb/", ex:"Hitta jobb.", exFa:"پیدا کردن کار."},
+  "dyr": {sv:"dyr", fa:"گران", en:"expensive", ipa:"/dyːr/", ex:"Det är dyrt.", exFa:"گران است."},
+  "vill": {sv:"vill", fa:"می‌خواهد", en:"wants", ipa:"/vɪl/", ex:"Vill bo.", exFa:"می‌خواهد زندگی کند."},
+  "bor": {sv:"bor", fa:"زندگی می‌کند", en:"lives", ipa:"/buːr/", ex:"Bor hemma.", exFa:"در خانه زندگی می‌کند."}
+});
+
 const texts = {
-  mån: "De flesta är nog överens om att det råder bostadsbrist i Sveriges storstäder. Det är många som vill bo i storstaden och bostäderna räcker helt enkelt inte till för alla.",
-  tis: "Jag heter Kim och bor tillsammans med min flickvän i en liten tvåa på 46 kvadratmeter i Stockholm. Vi har alltid prioriterat ett bra läge."
+  mån: `De flesta är nog överens om att det råder bostadsbrist i Sveriges storstäder. Det är många som vill bo i storstaden och bostäderna räcker helt enkelt inte till för alla. Många ungdomar bor fortfarande kvar hos sina föräldrar och det är heller inte ovanligt att vara inneboende hos en kompis eller någon främmande person.\n\nByggföretagen bygger nya bostäder överallt, men ett problem verkar vara att byggandet inte går i takt med befolkningsökningen i städerna. Ett annat problem är att nyproducerade bostäder är dyra. Både priset på själva bostaden och boendekostnaderna är höga.\n\nBostadsbristen är som allra störst och mest påtaglig i innerstaden. Det är inte så konstigt, eftersom många av förklarliga skäl söker sig just dit.`,
+  tis: `Jag heter Kim och bor tillsammans med min flickvän i en liten tvåa på 46 kvadratmeter i Stockholm. Vi har alltid prioriterat ett bra läge, så därför har vi accepterat att vi blir lite trångbodda. Vi har nära till allt. Det tar fem minuter att ta sig till tunnelbanan och vi har en fin utsikt från vår balkong.\n\nNackdelen med att bo centralt är att det är dyrt. Vår lägenhet kostade 3,5 miljoner. En annan nackdel är att bostaden är så liten att vi inte kan bjuda hem alla våra kompisar.`
 };
 
-let currentWeek = 1;
-let currentDay = 'mån';
-let currentWord = '';
+let currentWeek = 1, currentDay = 'mån', currentWord = '', score = 0;
 
 function init() {
   try {
@@ -81,7 +142,7 @@ function init() {
     renderDayTabs();
     renderContent();
   } catch(e) {
-    document.getElementById('content').innerHTML = '<div class="card"><p style="color:red">خطا: ' + e.message + '</p></div>';
+    document.getElementById('content').innerHTML = '<div class="card" style="color:red">خطا: ' + e.message + '</div>';
   }
 }
 
@@ -92,7 +153,7 @@ function renderWeekNav() {
     const btn = document.createElement('button');
     btn.textContent = 'Vecka ' + i;
     if (i === currentWeek) btn.className = 'active';
-    btn.onclick = function() { currentWeek = i; currentDay = 'mån'; renderWeekNav(); renderDayTabs(); renderContent(); };
+    btn.onclick = () => { currentWeek = i; currentDay = 'mån'; renderWeekNav(); renderDayTabs(); renderContent(); };
     nav.appendChild(btn);
   }
 }
@@ -100,13 +161,11 @@ function renderWeekNav() {
 function renderDayTabs() {
   const tabs = document.getElementById('dayTabs');
   tabs.innerHTML = '';
-  const days = ['mån', 'tis', 'ons', 'tors', 'fre'];
-  const labels = { mån: 'Mån', tis: 'Tis', ons: 'Ons', tors: 'Tors', fre: 'Fre' };
-  days.forEach(function(d) {
+  [['mån','Mån'],['tis','Tis'],['ons','Ons'],['tors','Tors'],['fre','Fre']].forEach(([d,label]) => {
     const btn = document.createElement('button');
-    btn.textContent = labels[d];
+    btn.textContent = label;
     if (d === currentDay) btn.className = 'active';
-    btn.onclick = function() { currentDay = d; renderDayTabs(); renderContent(); };
+    btn.onclick = () => { currentDay = d; renderDayTabs(); renderContent(); };
     tabs.appendChild(btn);
   });
 }
@@ -114,52 +173,126 @@ function renderDayTabs() {
 function renderContent() {
   const content = document.getElementById('content');
   if (currentWeek !== 1) {
-    content.innerHTML = '<div class="card"><h2>Vecka ' + currentWeek + '</h2><p>محتوای این هفته به زودی اضافه می‌شود.</p></div>';
+    content.innerHTML = '<div class="card"><h2>Vecka ' + currentWeek + '</h2><p>محتوای این هفته به زودی اضافه می‌شود. فعلاً هفته ۱ کامل است.</p></div>';
     return;
   }
   if (currentDay === 'mån' || currentDay === 'tis') {
-    let html = '<div class="card"><h2>' + (currentDay === 'mån' ? 'Måndag' : 'Tisdag') + '</h2>';
-    html += '<h3>لغات جدید</h3><div id="vocabList"></div>';
-    html += '<h3 style="margin-top:1.5rem">متن خواندن</h3><div class="reading-text" id="readingText"></div></div>';
-    content.innerHTML = html;
+    content.innerHTML = `
+      <div class="card">
+        <h2>${currentDay === 'mån' ? 'Måndag' : 'Tisdag'} – Ordkunskap och läsning</h2>
+        <h3>لغات جدید <button class="btn secondary" style="float:right" onclick="startFlashcards()">فلش‌کارت</button></h3>
+        <div id="vocabList"></div>
+        <h3 style="margin-top:1.5rem">متن خواندن (روی هر کلمه کلیک کنید)</h3>
+        <div class="reading-text" id="readingText"></div>
+        <div style="margin-top:1rem">
+          <a href="https://svenskadagfordag.se/ljud/ljud-svenska-dag-for-dag-d/vecka-1-d/" target="_blank" class="btn secondary">🎧 صوت رسمی</a>
+          <button class="btn" onclick="startVocabQuiz()">تمرین لغات</button>
+          <button class="btn success" onclick="startSentenceQuiz()">تمرین جمله</button>
+        </div>
+      </div>`;
     renderVocab();
     renderReading();
   } else if (currentDay === 'ons') {
-    content.innerHTML = '<div class="card"><h2>Onsdag – Grammatik</h2><p>Indefinita pronomen: någon, något, några, ingen, inget, inga, annan, annat, andra, all, allt, alla.</p></div>';
+    content.innerHTML = `
+      <div class="card">
+        <h2>Onsdag – Grammatik: Indefinita pronomen</h2>
+        <p>ضمایر نامعین برای بیان چیزی نامشخص درباره اشخاص یا اشیا استفاده می‌شوند.</p>
+        <table style="width:100%;border-collapse:collapse;margin:1rem 0">
+          <tr style="background:#f1f8ff"><th>En</th><th>Ett</th><th>Plural</th><th>Personer</th><th>Saker</th></tr>
+          <tr><td>någon</td><td>något</td><td>några</td><td>någon</td><td>något</td></tr>
+          <tr><td>ingen</td><td>inget</td><td>inga</td><td>ingen</td><td>inget</td></tr>
+          <tr><td>annan</td><td>annat</td><td>andra</td><td>annan</td><td>annat</td></tr>
+          <tr><td>all</td><td>allt</td><td>alla</td><td>alla</td><td>allt</td></tr>
+        </table>
+        <h3>تمرین</h3>
+        <p>Vi har ________ bra utsikt. → <b>en</b></p>
+        <p>________ av dem har råd. → <b>Ingen</b></p>
+      </div>`;
   } else if (currentDay === 'tors') {
-    content.innerHTML = '<div class="card"><h2>Torsdag – Skriv</h2><p>درباره مسکن خودتان بنویسید.</p><textarea style="width:100%;min-height:120px" placeholder="Skriv här..."></textarea></div>';
+    content.innerHTML = `
+      <div class="card">
+        <h2>Torsdag – Skrivövning</h2>
+        <div class="structure">
+          <strong>ساختار نامه خوب:</strong>
+          <ol>
+            <li><b>Hälsning:</b> Hej / Hej [namn]!</li>
+            <li><b>Inledning:</b> Tack för brevet + gratulera</li>
+            <li><b>Huvuddel:</b> پاسخ به سوالات (نحوه نقل مکان، نکات، مزایا و معایب منطقه)</li>
+            <li><b>Avslutning:</b> Hoppas du trivs + Kram / Med vänlig hälsning</li>
+          </ol>
+        </div>
+        <div class="model-answer">
+          <strong>نمونه:</strong><br>
+          Hej min vän!<br><br>
+          Tack så mycket för ditt brev och stort grattis till den nya bostaden! När jag flyttade planerade jag allt noga. Mitt bästa tips är att kolla hur nära det är till kollektivtrafik. Området är trevligt men ganska dyrt. Jag hoppas att du trivs!<br><br>
+          Kram<br>Din vän
+        </div>
+        <p>حالا خودتان بنویسید (حداقل ۸۰ کلمه):</p>
+        <textarea id="writingArea" placeholder="Skriv ditt svar här..."></textarea>
+        <button class="btn" style="margin-top:.8rem" onclick="checkWriting()">بررسی نوشته</button>
+        <div id="writingFeedback"></div>
+      </div>`;
   } else {
-    content.innerHTML = '<div class="card"><h2>Fredag – Hör och tal</h2><p>به صوت رسمی گوش دهید.</p><a href="https://svenskadagfordag.se/ljud/ljud-svenska-dag-for-dag-d/vecka-1-d/" target="_blank" class="btn">🎧 صوت رسمی</a></div>';
+    content.innerHTML = `
+      <div class="card">
+        <h2>Fredag – Hör och tal</h2>
+        <p>به صوت رسمی گوش دهید و به سوالات کتاب پاسخ دهید.</p>
+        <a href="https://svenskadagfordag.se/ljud/ljud-svenska-dag-for-dag-d/vecka-1-hoeroevningar-d/" target="_blank" class="btn">🎧 Hörövningar</a>
+        <h3 style="margin-top:1.5rem">تمرین صحبت کردن</h3>
+        <ul>
+          <li>Hur bor du just nu?</li>
+          <li>Vad är viktigt för dig när du väljer bostad?</li>
+        </ul>
+      </div>`;
   }
 }
 
 function renderVocab() {
   const list = document.getElementById('vocabList');
-  if (!list || !vocab[currentDay]) return;
+  if (!list) return;
   list.innerHTML = '';
-  vocab[currentDay].forEach(function(v) {
+  (vocab[currentDay] || []).forEach(v => {
     const div = document.createElement('div');
     div.className = 'vocab-item';
-    div.innerHTML = '<div class="vocab-word">' + v.sv + '</div><div class="meanings">' + v.fa + ' | ' + v.en + '</div>';
-    div.onclick = function() { showPopup(v); };
+    div.innerHTML = '<div><div class="vocab-word">' + v.sv + '</div><div class="meanings">' + v.fa + ' | ' + v.en + '</div></div><span>▶</span>';
+    div.onclick = () => showPopup(v);
     list.appendChild(div);
   });
 }
 
 function renderReading() {
   const el = document.getElementById('readingText');
-  if (!el || !texts[currentDay]) return;
-  el.textContent = texts[currentDay];
-  el.style.lineHeight = '1.9';
+  if (!el) return;
+  const text = texts[currentDay] || '';
+  const parts = text.split(/(\s+)/);
+  let html = '';
+  parts.forEach(part => {
+    const clean = part.replace(/[.,!?;:"“”]/g, '').toLowerCase();
+    if (clean && dictionary[clean]) {
+      html += '<span class="word" data-word="' + clean + '">' + part + '</span>';
+    } else {
+      html += part;
+    }
+  });
+  el.innerHTML = html.replace(/\n/g, '<br>');
+  el.querySelectorAll('.word').forEach(span => {
+    span.onclick = (e) => {
+      e.stopPropagation();
+      const key = span.dataset.word;
+      const entry = dictionary[key] || {sv:key, fa:"(در دیکشنری نیست)", en:"(not in dictionary)", ipa:"", ex:"", exFa:""};
+      showPopup(entry);
+    };
+  });
 }
 
 function showPopup(v) {
-  currentWord = v.sv;
-  document.getElementById('popWord').textContent = v.sv;
+  currentWord = v.sv || '';
+  document.getElementById('popWord').textContent = v.sv || '';
   document.getElementById('popIpa').textContent = v.ipa || '';
   document.getElementById('popFa').textContent = v.fa || '';
   document.getElementById('popEn').textContent = v.en || '';
   document.getElementById('popEx').textContent = v.ex || '';
+  document.getElementById('popExFa').textContent = v.exFa || '';
   document.getElementById('popup').classList.add('show');
   document.getElementById('overlay').classList.add('show');
 }
@@ -175,14 +308,122 @@ function speakWord() {
   utter.lang = 'sv-SE';
   utter.rate = 0.7;
   const voices = speechSynthesis.getVoices();
-  const svVoice = voices.find(function(v) { return v.lang.startsWith('sv'); });
-  if (svVoice) utter.voice = svVoice;
+  const sv = voices.find(v => v.lang.startsWith('sv'));
+  if (sv) utter.voice = sv;
   speechSynthesis.speak(utter);
 }
 
 function openWiktionary() {
   if (!currentWord) return;
-  window.open('https://sv.wiktionary.org/wiki/' + encodeURIComponent(currentWord), '_blank');
+  window.open('https://sv.wiktionary.org/wiki/' + encodeURIComponent(currentWord.split(' ')[0]), '_blank');
+}
+
+let flashIndex = 0, flashCards = [];
+function startFlashcards() {
+  flashCards = [...(vocab[currentDay] || [])];
+  flashIndex = 0;
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <h2>فلش‌کارت</h2>
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="front" id="flashFront"></div>
+        <div class="back" id="flashBack"></div>
+      </div>
+      <div style="text-align:center">
+        <button class="btn" onclick="speakWord()">🔊 تلفظ</button>
+        <button class="btn secondary" onclick="nextFlash(-1)">قبلی</button>
+        <button class="btn" onclick="nextFlash(1)">بعدی</button>
+      </div>
+      <p id="flashProgress" style="text-align:center"></p>
+      <button class="btn secondary" onclick="renderContent()">بازگشت</button>
+    </div>`;
+  showFlash();
+}
+
+function showFlash() {
+  if (!flashCards.length) return;
+  if (flashIndex >= flashCards.length) flashIndex = 0;
+  if (flashIndex < 0) flashIndex = flashCards.length - 1;
+  const v = flashCards[flashIndex];
+  document.getElementById('flashFront').textContent = v.sv;
+  document.getElementById('flashBack').innerHTML = '<strong>' + v.fa + '</strong><br>' + v.en + '<br><span class="ipa">' + (v.ipa||'') + '</span>';
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('flashProgress').textContent = (flashIndex+1) + ' / ' + flashCards.length;
+  currentWord = v.sv;
+}
+
+function flipCard() { document.getElementById('flashcard').classList.toggle('flipped'); }
+function nextFlash(d) { flashIndex += d; showFlash(); }
+
+function startVocabQuiz() {
+  const items = vocab[currentDay] || [];
+  if (!items.length) return;
+  const q = items[Math.floor(Math.random()*items.length)];
+  const opts = [q];
+  while (opts.length < Math.min(4, items.length)) {
+    const r = items[Math.floor(Math.random()*items.length)];
+    if (!opts.find(o => o.sv === r.sv)) opts.push(r);
+  }
+  opts.sort(() => Math.random()-0.5);
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <h2>تمرین لغات</h2>
+      <p>معنی این کلمه چیست؟</p>
+      <h3 style="text-align:center">${q.sv} <button class="btn secondary" onclick="currentWord='${q.sv}';speakWord()">🔊</button></h3>
+      <div id="quizOptions"></div>
+      <button class="btn secondary" style="margin-top:1rem" onclick="renderContent()">بازگشت</button>
+    </div>`;
+  const el = document.getElementById('quizOptions');
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt.fa;
+    btn.onclick = () => {
+      if (opt.sv === q.sv) { btn.classList.add('correct'); setTimeout(startVocabQuiz, 700); }
+      else btn.classList.add('wrong');
+    };
+    el.appendChild(btn);
+  });
+}
+
+function startSentenceQuiz() {
+  const sentences = [
+    {sv:"Det råder bostadsbrist i storstäderna.", fa:"در شهرهای بزرگ کمبود مسکن وجود دارد."},
+    {sv:"Bostäderna räcker inte till för alla.", fa:"مسکن‌ها برای همه کافی نیست."},
+    {sv:"Vi har alltid prioriterat ett bra läge.", fa:"ما همیشه یک موقعیت خوب را اولویت داده‌ایم."}
+  ];
+  const q = sentences[Math.floor(Math.random()*sentences.length)];
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <h2>تمرین جمله</h2>
+      <p>معنی این جمله چیست؟</p>
+      <h3 style="text-align:center">${q.sv}</h3>
+      <button class="btn secondary" onclick="currentWord='${q.sv}';speakWord()">🔊 گوش دادن</button>
+      <div id="sentOptions" style="margin-top:1rem"></div>
+      <button class="btn secondary" style="margin-top:1rem" onclick="renderContent()">بازگشت</button>
+    </div>`;
+  const opts = [q.fa, "مسکن در روستا ارزان است.", "جمعیت کم می‌شود.", "همه کار دارند."].sort(()=>Math.random()-0.5);
+  const el = document.getElementById('sentOptions');
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => {
+      if (opt === q.fa) { btn.classList.add('correct'); setTimeout(startSentenceQuiz, 800); }
+      else btn.classList.add('wrong');
+    };
+    el.appendChild(btn);
+  });
+}
+
+function checkWriting() {
+  const text = document.getElementById('writingArea').value.trim();
+  const words = text.split(/\s+/).filter(w => w).length;
+  let fb = words < 50 ? '<p style="color:#e63946">تعداد کلمات کم است (' + words + '). حداقل ۸۰ کلمه بنویسید.</p>'
+                       : '<p style="color:#2a9d8f">خوب است! (' + words + ' کلمه)</p>';
+  fb += '<ul><li>' + (/hej/i.test(text)?'✅':'❌') + ' سلام (Hej)</li>';
+  fb += '<li>' + (/kram|hälsning/i.test(text)?'✅':'❌') + ' خداحافظی</li></ul>';
+  document.getElementById('writingFeedback').innerHTML = fb;
 }
 
 init();
