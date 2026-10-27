@@ -68,26 +68,26 @@ textarea { width:100%; min-height:140px; padding:.8rem; border:1px solid #ddd; b
 <script>
 const vocab = {
   mån: [
-    {sv:"överens", fa:"موافق، هم‌نظر", en:"in agreement", ipa:"/ˈøːvəˌrɛns/", ex:"De flesta är överens.", exFa:"اکثر موافق هستند."},
-    {sv:"råda", fa:"وجود داشتن", en:"to prevail", ipa:"/ˈroːda/", ex:"Det råder brist.", exFa:"کمبود وجود دارد."},
-    {sv:"brist", fa:"کمبود", en:"shortage", ipa:"/brɪst/", ex:"En brist på bostäder.", exFa:"کمبود مسکن."},
-    {sv:"räcka", fa:"کافی بودن", en:"to be enough", ipa:"/ˈrɛka/", ex:"Det räcker inte.", exFa:"کافی نیست."},
-    {sv:"inneboende", fa:"مستاجر", en:"lodger", ipa:"/ˈɪnəˌbuːəndə/", ex:"Han är inneboende.", exFa:"او مستاجر است."},
-    {sv:"befolkning", fa:"جمعیت", en:"population", ipa:"/bɛˈfɔlknɪŋ/", ex:"Befolkningen ökar.", exFa:"جمعیت افزایش می‌یابد."},
-    {sv:"ökning", fa:"افزایش", en:"increase", ipa:"/ˈøːknɪŋ/", ex:"En ökning.", exFa:"یک افزایش."},
-    {sv:"boendekostnad", fa:"هزینه مسکن", en:"housing cost", ipa:"/ˈbuːəndɛˌkɔstnad/", ex:"Höga boendekostnader.", exFa:"هزینه‌های بالای مسکن."},
-    {sv:"leda till", fa:"منجر شدن به", en:"to lead to", ipa:"/ˈleːda tɪl/", ex:"Det leder till problem.", exFa:"منجر به مشکل می‌شود."},
-    {sv:"ha råd", fa:"استطاعت داشتن", en:"to afford", ipa:"/ha roːd/", ex:"Har inte råd.", exFa:"استطاعت ندارد."}
+    {sv:"överens", fa:"موافق، هم‌نظر", en:"in agreement", ipa:"/ˈøːvəˌrɛns/", ex:"De flesta är överens.", exFa:"اکثر موافق هستند.", exEn:"Most people agree."},
+    {sv:"råda", fa:"وجود داشتن", en:"to prevail", ipa:"/ˈroːda/", ex:"Det råder brist.", exFa:"کمبود وجود دارد.", exEn:"There is a shortage."},
+    {sv:"brist", fa:"کمبود", en:"shortage", ipa:"/brɪst/", ex:"En brist på bostäder.", exFa:"کمبود مسکن.", exEn:"A shortage of housing."},
+    {sv:"räcka", fa:"کافی بودن", en:"to be enough", ipa:"/ˈrɛka/", ex:"Det räcker inte.", exFa:"کافی نیست.", exEn:"It is not enough."},
+    {sv:"inneboende", fa:"مستاجر", en:"lodger", ipa:"/ˈɪnəˌbuːəndə/", ex:"Han är inneboende.", exFa:"او مستاجر است.", exEn:"He is a lodger."},
+    {sv:"befolkning", fa:"جمعیت", en:"population", ipa:"/bɛˈfɔlknɪŋ/", ex:"Befolkningen ökar.", exFa:"جمعیت افزایش می‌یابد.", exEn:"The population is increasing."},
+    {sv:"ökning", fa:"افزایش", en:"increase", ipa:"/ˈøːknɪŋ/", ex:"En ökning.", exFa:"یک افزایش.", exEn:"An increase."},
+    {sv:"boendekostnad", fa:"هزینه مسکن", en:"housing cost", ipa:"/ˈbuːəndɛˌkɔstnad/", ex:"Höga boendekostnader.", exFa:"هزینه‌های بالای مسکن.", exEn:"High housing costs."},
+    {sv:"leda till", fa:"منجر شدن به", en:"to lead to", ipa:"/ˈleːda tɪl/", ex:"Det leder till problem.", exFa:"منجر به مشکل می‌شود.", exEn:"It leads to problems."},
+    {sv:"ha råd", fa:"استطاعت داشتن", en:"to afford", ipa:"/ha roːd/", ex:"Har inte råd.", exFa:"استطاعت ندارد.", exEn:"Cannot afford."}
   ],
   tis: [
-    {sv:"prioritera", fa:"اولویت دادن", en:"to prioritize", ipa:"/priɔrɪˈteːra/", ex:"Vi prioriterar läget.", exFa:"ما موقعیت را اولویت می‌دهیم."},
-    {sv:"läge", fa:"موقعیت", en:"location", ipa:"/ˈlɛːɡɛ/", ex:"Ett bra läge.", exFa:"یک موقعیت خوب."},
-    {sv:"utsikt", fa:"منظره", en:"view", ipa:"/ˈʉːtsɪkt/", ex:"Fin utsikt.", exFa:"منظره زیبا."},
-    {sv:"stenkast", fa:"فاصله خیلی کم", en:"stone's throw", ipa:"/ˈsteːnˌkast/", ex:"Ett stenkast.", exFa:"فاصله خیلی کم."},
-    {sv:"njuta", fa:"لذت بردن", en:"to enjoy", ipa:"/ˈnjʉːta/", ex:"Njuta av sällskapet.", exFa:"از همراهی لذت بردن."},
-    {sv:"trångt", fa:"تنگ، شلوغ", en:"cramped", ipa:"/trɔŋt/", ex:"Det blir för trångt.", exFa:"خیلی تنگ می‌شود."},
-    {sv:"oväsen", fa:"سروصدا", en:"noise", ipa:"/ˈuːˌvɛːsən/", ex:"Allt oväsen.", exFa:"همه سروصدا."},
-    {sv:"slippa", fa:"معاف شدن از", en:"to avoid", ipa:"/ˈslɪpa/", ex:"Slippa tänka.", exFa:"از فکر کردن معاف شدن."}
+    {sv:"prioritera", fa:"اولویت دادن", en:"to prioritize", ipa:"/priɔrɪˈteːra/", ex:"Vi prioriterar läget.", exFa:"ما موقعیت را اولویت می‌دهیم.", exEn:"We prioritize the location."},
+    {sv:"läge", fa:"موقعیت", en:"location", ipa:"/ˈlɛːɡɛ/", ex:"Ett bra läge.", exFa:"یک موقعیت خوب.", exEn:"A good location."},
+    {sv:"utsikt", fa:"منظره", en:"view", ipa:"/ˈʉːtsɪkt/", ex:"Fin utsikt.", exFa:"منظره زیبا.", exEn:"Nice view."},
+    {sv:"stenkast", fa:"فاصله خیلی کم", en:"stone's throw", ipa:"/ˈsteːnˌkast/", ex:"Ett stenkast.", exFa:"فاصله خیلی کم.", exEn:"A stone's throw."},
+    {sv:"njuta", fa:"لذت بردن", en:"to enjoy", ipa:"/ˈnjʉːta/", ex:"Njuta av sällskapet.", exFa:"از همراهی لذت بردن.", exEn:"Enjoy the company."},
+    {sv:"trångt", fa:"تنگ، شلوغ", en:"cramped", ipa:"/trɔŋt/", ex:"Det blir för trångt.", exFa:"خیلی تنگ می‌شود.", exEn:"It becomes too cramped."},
+    {sv:"oväsen", fa:"سروصدا", en:"noise", ipa:"/ˈuːˌvɛːsən/", ex:"Allt oväsen.", exFa:"همه سروصدا.", exEn:"All the noise."},
+    {sv:"slippa", fa:"معاف شدن از", en:"to avoid", ipa:"/ˈslɪpa/", ex:"Slippa tänka.", exFa:"از فکر کردن معاف شدن.", exEn:"Avoid thinking."}
   ]
 };
 
@@ -100,33 +100,86 @@ Object.keys(vocab).forEach(day => {
   });
 });
 Object.assign(dictionary, {
-  "flesta": {sv:"flesta", fa:"اکثر", en:"most", ipa:"/ˈflɛːsta/", ex:"De flesta.", exFa:"اکثر."},
-  "nog": {sv:"nog", fa:"احتمالاً", en:"probably", ipa:"/nuːɡ/", ex:"Är nog.", exFa:"احتمالاً است."},
-  "om": {sv:"om", fa:"در مورد", en:"about", ipa:"/ɔm/", ex:"Överens om.", exFa:"موافق در مورد."},
-  "att": {sv:"att", fa:"که / به", en:"that/to", ipa:"/at/", ex:"Att bo.", exFa:"زندگی کردن."},
-  "det": {sv:"det", fa:"آن", en:"it", ipa:"/deːt/", ex:"Det är.", exFa:"آن است."},
-  "är": {sv:"är", fa:"است", en:"is", ipa:"/ɛːr/", ex:"Det är bra.", exFa:"خوب است."},
-  "och": {sv:"och", fa:"و", en:"and", ipa:"/ɔk/", ex:"Mamma och pappa.", exFa:"مامان و بابا."},
-  "en": {sv:"en", fa:"یک", en:"a", ipa:"/ɛn/", ex:"En lägenhet.", exFa:"یک آپارتمان."},
-  "i": {sv:"i", fa:"در", en:"in", ipa:"/iː/", ex:"I Stockholm.", exFa:"در استکهلم."},
-  "på": {sv:"på", fa:"روی", en:"on", ipa:"/poː/", ex:"På balkongen.", exFa:"روی بالکن."},
-  "med": {sv:"med", fa:"با", en:"with", ipa:"/meːd/", ex:"Med vänner.", exFa:"با دوستان."},
-  "för": {sv:"för", fa:"برای", en:"for", ipa:"/føːr/", ex:"För alla.", exFa:"برای همه."},
-  "som": {sv:"som", fa:"که", en:"that", ipa:"/sɔm/", ex:"Som bor.", exFa:"که زندگی می‌کند."},
-  "till": {sv:"till", fa:"به", en:"to", ipa:"/tɪl/", ex:"Till tunnelbanan.", exFa:"به مترو."},
-  "har": {sv:"har", fa:"دارد", en:"has", ipa:"/hɑːr/", ex:"Vi har.", exFa:"ما داریم."},
-  "inte": {sv:"inte", fa:"نه", en:"not", ipa:"/ˈɪntɛ/", ex:"Inte tillräckligt.", exFa:"کافی نیست."},
-  "många": {sv:"många", fa:"خیلی‌ها", en:"many", ipa:"/ˈmɔŋa/", ex:"Många ungdomar.", exFa:"جوانان زیادی."},
-  "bo": {sv:"bo", fa:"زندگی کردن", en:"live", ipa:"/buː/", ex:"Vill bo.", exFa:"می‌خواهد زندگی کند."},
-  "bostad": {sv:"bostad", fa:"مسکن", en:"housing", ipa:"/ˈbuːstɑːd/", ex:"Egen bostad.", exFa:"مسکن خود."},
-  "lägenhet": {sv:"lägenhet", fa:"آپارتمان", en:"apartment", ipa:"/ˈlɛːɡənˌheːt/", ex:"En lägenhet.", exFa:"یک آپارتمان."},
-  "storstaden": {sv:"storstaden", fa:"شهر بزرگ", en:"big city", ipa:"/ˈstuːrˌstɑːdən/", ex:"I storstaden.", exFa:"در شهر بزرگ."},
-  "föräldrar": {sv:"föräldrar", fa:"والدین", en:"parents", ipa:"/ˈføːrˌɛldrar/", ex:"Hos föräldrar.", exFa:"نزد والدین."},
-  "kompis": {sv:"kompis", fa:"دوست", en:"friend", ipa:"/ˈkɔmpɪs/", ex:"En kompis.", exFa:"یک دوست."},
-  "jobb": {sv:"jobb", fa:"کار", en:"job", ipa:"/jɔb/", ex:"Hitta jobb.", exFa:"پیدا کردن کار."},
-  "dyr": {sv:"dyr", fa:"گران", en:"expensive", ipa:"/dyːr/", ex:"Det är dyrt.", exFa:"گران است."},
-  "vill": {sv:"vill", fa:"می‌خواهد", en:"wants", ipa:"/vɪl/", ex:"Vill bo.", exFa:"می‌خواهد زندگی کند."},
-  "bor": {sv:"bor", fa:"زندگی می‌کند", en:"lives", ipa:"/buːr/", ex:"Bor hemma.", exFa:"در خانه زندگی می‌کند."}
+  "byggföretagen": {sv:"byggföretagen", fa:"شرکت‌های ساختمانی", en:"the construction companies", ipa:"/ˈbʉɡfœˌreːtəɡən/", ex:"Byggföretagen bygger.", exFa:"شرکت‌های ساختمانی می‌سازند.", exEn:"The construction companies build."},
+  "bygger": {sv:"bygger", fa:"می‌سازد", en:"builds", ipa:"/ˈbʉɡər/", ex:"Bygger nya bostäder.", exFa:"مسکن‌های جدید می‌سازد.", exEn:"Builds new homes."},
+  "nya": {sv:"nya", fa:"جدید", en:"new", ipa:"/ˈnyːa/", ex:"Nya bostäder.", exFa:"مسکن‌های جدید.", exEn:"New homes."},
+  "bostäder": {sv:"bostäder", fa:"مسکن‌ها", en:"homes", ipa:"/ˈbuːstɛːdər/", ex:"Nya bostäder.", exFa:"مسکن‌های جدید.", exEn:"New homes."},
+  "överallt": {sv:"överallt", fa:"همه‌جا", en:"everywhere", ipa:"/ˈøːvərˌalt/", ex:"Överallt.", exFa:"همه‌جا.", exEn:"Everywhere."},
+  "men": {sv:"men", fa:"اما", en:"but", ipa:"/mɛn/", ex:"Men ett problem.", exFa:"اما یک مشکل.", exEn:"But a problem."},
+  "ett": {sv:"ett", fa:"یک", en:"a", ipa:"/ɛt/", ex:"Ett problem.", exFa:"یک مشکل.", exEn:"A problem."},
+  "problem": {sv:"problem", fa:"مشکل", en:"problem", ipa:"/prɔˈbleːm/", ex:"Ett problem.", exFa:"یک مشکل.", exEn:"A problem."},
+  "verkar": {sv:"verkar", fa:"به نظر می‌رسد", en:"seems", ipa:"/ˈvɛrkar/", ex:"Verkar vara.", exFa:"به نظر می‌رسد باشد.", exEn:"Seems to be."},
+  "vara": {sv:"vara", fa:"بودن", en:"to be", ipa:"/ˈvɑːra/", ex:"Att vara.", exFa:"بودن.", exEn:"To be."},
+  "byggandet": {sv:"byggandet", fa:"ساخت‌وساز", en:"the construction", ipa:"/ˈbʉɡandət/", ex:"Byggandet går inte.", exFa:"ساخت‌وساز پیش نمی‌رود.", exEn:"The construction is not progressing."},
+  "går": {sv:"går", fa:"می‌رود", en:"goes", ipa:"/ɡoːr/", ex:"Går inte i takt.", exFa:"هماهنگ نیست.", exEn:"Does not keep pace."},
+  "takt": {sv:"takt", fa:"هماهنگی", en:"pace", ipa:"/takt/", ex:"I takt med.", exFa:"هماهنگ با.", exEn:"In pace with."},
+  "befolkningsökningen": {sv:"befolkningsökningen", fa:"افزایش جمعیت", en:"population increase", ipa:"/bɛˈfɔlknɪŋsˌøːknɪŋən/", ex:"Med befolkningsökningen.", exFa:"با افزایش جمعیت.", exEn:"With the population increase."},
+  "städerna": {sv:"städerna", fa:"شهرها", en:"the cities", ipa:"/ˈstɛːdɛrna/", ex:"I städerna.", exFa:"در شهرها.", exEn:"In the cities."},
+  "annat": {sv:"annat", fa:"دیگر", en:"another", ipa:"/ˈanat/", ex:"Ett annat problem.", exFa:"یک مشکل دیگر.", exEn:"Another problem."},
+  "nyproducerade": {sv:"nyproducerade", fa:"تازه‌ساخته", en:"newly built", ipa:"/ˈnyːprɔˌduːsɛrade/", ex:"Nyproducerade bostäder.", exFa:"مسکن‌های تازه‌ساخته.", exEn:"Newly built homes."},
+  "dyra": {sv:"dyra", fa:"گران", en:"expensive", ipa:"/ˈdyːra/", ex:"Är dyra.", exFa:"گران هستند.", exEn:"Are expensive."},
+  "både": {sv:"både", fa:"هر دو", en:"both", ipa:"/ˈboːdɛ/", ex:"Både priset.", exFa:"هم قیمت.", exEn:"Both the price."},
+  "priset": {sv:"priset", fa:"قیمت", en:"the price", ipa:"/ˈpriːsɛt/", ex:"Priset på bostaden.", exFa:"قیمت مسکن.", exEn:"The price of the home."},
+  "själva": {sv:"själva", fa:"خود", en:"itself", ipa:"/ˈʃɛlva/", ex:"Själva bostaden.", exFa:"خود مسکن.", exEn:"The home itself."},
+  "höga": {sv:"höga", fa:"بالا", en:"high", ipa:"/ˈhøːɡa/", ex:"Är höga.", exFa:"بالا هستند.", exEn:"Are high."},
+  "kostnaderna": {sv:"kostnaderna", fa:"هزینه‌ها", en:"the costs", ipa:"/ˈkɔstnadɛrna/", ex:"Höga kostnaderna.", exFa:"هزینه‌های بالا.", exEn:"The high costs."},
+  "ofta": {sv:"ofta", fa:"اغلب", en:"often", ipa:"/ˈɔfta/", ex:"Leder ofta till.", exFa:"اغلب منجر می‌شود.", exEn:"Often leads to."},
+  "fattiga": {sv:"fattiga", fa:"فقیر", en:"poor", ipa:"/ˈfatɪɡa/", ex:"Fattiga ungdomar.", exFa:"جوانان فقیر.", exEn:"Poor young people."},
+  "ungdomar": {sv:"ungdomar", fa:"جوانان", en:"young people", ipa:"/ˈʉŋdɔmar/", ex:"Många ungdomar.", exFa:"جوانان زیادی.", exEn:"Many young people."},
+  "studenter": {sv:"studenter", fa:"دانشجویان", en:"students", ipa:"/stʉˈdɛntɛr/", ex:"Studenter.", exFa:"دانشجویان.", exEn:"Students."},
+  "arbetslösa": {sv:"arbetslösa", fa:"بیکار", en:"unemployed", ipa:"/ˈarbɛtsˌøːsa/", ex:"Arbetslösa.", exFa:"بیکاران.", exEn:"The unemployed."},
+  "köpa": {sv:"köpa", fa:"خریدن", en:"to buy", ipa:"/ˈʃøːpa/", ex:"Köpa sin egen.", exFa:"خریدن مال خود.", exEn:"Buy one's own."},
+  "sin": {sv:"sin", fa:"خود", en:"one's own", ipa:"/siːn/", ex:"Sin egen bostad.", exFa:"مسکن خود.", exEn:"One's own home."},
+  "egen": {sv:"egen", fa:"مال خود", en:"own", ipa:"/ˈeːɡən/", ex:"Egen bostad.", exFa:"مسکن خود.", exEn:"Own home."},
+  "allra": {sv:"allra", fa:"از همه", en:"of all", ipa:"/ˈalra/", ex:"Som allra störst.", exFa:"از همه بزرگ‌تر.", exEn:"The biggest of all."},
+  "störst": {sv:"störst", fa:"بزرگ‌ترین", en:"biggest", ipa:"/stœrst/", ex:"Allra störst.", exFa:"از همه بزرگ‌تر.", exEn:"The very biggest."},
+  "mest": {sv:"mest", fa:"بیشترین", en:"most", ipa:"/mɛst/", ex:"Mest påtaglig.", exFa:"بیشترین محسوس.", exEn:"Most noticeable."},
+  "påtaglig": {sv:"påtaglig", fa:"محسوس", en:"noticeable", ipa:"/ˈpɔːˌtɑːɡlɪɡ/", ex:"Mest påtaglig.", exFa:"بیشترین محسوس.", exEn:"Most noticeable."},
+  "innerstaden": {sv:"innerstaden", fa:"مرکز شهر", en:"city center", ipa:"/ˈɪnərˌstɑːdən/", ex:"I innerstaden.", exFa:"در مرکز شهر.", exEn:"In the city center."},
+  "konstigt": {sv:"konstigt", fa:"عجیب", en:"strange", ipa:"/ˈkɔnstɪɡt/", ex:"Inte så konstigt.", exFa:"آنقدر عجیب نیست.", exEn:"Not so strange."},
+  "eftersom": {sv:"eftersom", fa:"چون", en:"because", ipa:"/ˈɛftərsɔm/", ex:"Eftersom många.", exFa:"چون خیلی‌ها.", exEn:"Because many."},
+  "söker": {sv:"söker", fa:"جستجو می‌کند", en:"seeks", ipa:"/ˈsøːkər/", ex:"Söker sig dit.", exFa:"به آنجا می‌رود.", exEn:"Seeks out there."},
+  "sig": {sv:"sig", fa:"خود", en:"oneself", ipa:"/sɪɡ/", ex:"Söker sig.", exFa:"به دنبال خود می‌گردد.", exEn:"Seeks itself."},
+  "just": {sv:"just", fa:"دقیقاً", en:"exactly", ipa:"/jʉst/", ex:"Just dit.", exFa:"دقیقاً آنجا.", exEn:"Exactly there."},
+  "dit": {sv:"dit", fa:"به آنجا", en:"there", ipa:"/diːt/", ex:"Söker sig dit.", exFa:"به آنجا می‌رود.", exEn:"Goes there."},
+  "de": {sv:"de", fa:"آنها", en:"they", ipa:"/deː/", ex:"De flesta.", exFa:"اکثر آنها.", exEn:"Most of them."},
+  "fortfarande": {sv:"fortfarande", fa:"هنوز", en:"still", ipa:"/ˈfɔrtˈfɑːrande/", ex:"Bor fortfarande.", exFa:"هنوز زندگی می‌کند.", exEn:"Still lives."},
+  "kvar": {sv:"kvar", fa:"باقی", en:"still", ipa:"/kvɑːr/", ex:"Kvar hos.", exFa:"هنوز نزد.", exEn:"Still with."},
+  "hos": {sv:"hos", fa:"نزد", en:"at/with", ipa:"/huːs/", ex:"Hos föräldrar.", exFa:"نزد والدین.", exEn:"With parents."},
+  "sina": {sv:"sina", fa:"خودشان", en:"their own", ipa:"/ˈsiːna/", ex:"Sina föräldrar.", exFa:"والدین خودشان.", exEn:"Their own parents."},
+  "heller": {sv:"heller", fa:"همچنین نه", en:"neither", ipa:"/ˈhɛlər/", ex:"Heller inte.", exFa:"همچنین نه.", exEn:"Also not."},
+  "ovanligt": {sv:"ovanligt", fa:"غیرمعمول", en:"unusual", ipa:"/ˈuːvanlɪɡt/", ex:"Inte ovanligt.", exFa:"غیرمعمول نیست.", exEn:"Not unusual."},
+  "eller": {sv:"eller", fa:"یا", en:"or", ipa:"/ˈɛlər/", ex:"Kompis eller.", exFa:"دوست یا.", exEn:"Friend or."},
+  "någon": {sv:"någon", fa:"کسی", en:"someone", ipa:"/ˈnoːɡɔn/", ex:"Någon främmande.", exFa:"یک غریبه.", exEn:"Some stranger."},
+  "främmande": {sv:"främmande", fa:"غریبه", en:"strange", ipa:"/ˈfrɛmande/", ex:"Främmande person.", exFa:"شخص غریبه.", exEn:"Stranger."},
+  "person": {sv:"person", fa:"شخص", en:"person", ipa:"/pɛrˈsuːn/", ex:"En person.", exFa:"یک شخص.", exEn:"A person."},
+  "flesta": {sv:"flesta", fa:"اکثر", en:"most", ipa:"/ˈflɛːsta/", ex:"De flesta.", exFa:"اکثر.", exEn:"Most."},
+  "nog": {sv:"nog", fa:"احتمالاً", en:"probably", ipa:"/nuːɡ/", ex:"Är nog.", exFa:"احتمالاً است.", exEn:"Probably is."},
+  "om": {sv:"om", fa:"در مورد", en:"about", ipa:"/ɔm/", ex:"Överens om.", exFa:"موافق در مورد.", exEn:"Agree about."},
+  "att": {sv:"att", fa:"که / به", en:"that/to", ipa:"/at/", ex:"Att bo.", exFa:"زندگی کردن.", exEn:"To live."},
+  "det": {sv:"det", fa:"آن", en:"it", ipa:"/deːt/", ex:"Det är.", exFa:"آن است.", exEn:"It is."},
+  "är": {sv:"är", fa:"است", en:"is", ipa:"/ɛːr/", ex:"Det är bra.", exFa:"خوب است.", exEn:"It is good."},
+  "och": {sv:"och", fa:"و", en:"and", ipa:"/ɔk/", ex:"Mamma och pappa.", exFa:"مامان و بابا.", exEn:"Mom and dad."},
+  "en": {sv:"en", fa:"یک", en:"a", ipa:"/ɛn/", ex:"En lägenhet.", exFa:"یک آپارتمان.", exEn:"An apartment."},
+  "i": {sv:"i", fa:"در", en:"in", ipa:"/iː/", ex:"I Stockholm.", exFa:"در استکهلم.", exEn:"In Stockholm."},
+  "på": {sv:"på", fa:"روی", en:"on", ipa:"/poː/", ex:"På balkongen.", exFa:"روی بالکن.", exEn:"On the balcony."},
+  "med": {sv:"med", fa:"با", en:"with", ipa:"/meːd/", ex:"Med vänner.", exFa:"با دوستان.", exEn:"With friends."},
+  "för": {sv:"för", fa:"برای", en:"for", ipa:"/føːr/", ex:"För alla.", exFa:"برای همه.", exEn:"For everyone."},
+  "som": {sv:"som", fa:"که", en:"that", ipa:"/sɔm/", ex:"Som bor.", exFa:"که زندگی می‌کند.", exEn:"That lives."},
+  "till": {sv:"till", fa:"به", en:"to", ipa:"/tɪl/", ex:"Till tunnelbanan.", exFa:"به مترو.", exEn:"To the subway."},
+  "har": {sv:"har", fa:"دارد", en:"has", ipa:"/hɑːr/", ex:"Vi har.", exFa:"ما داریم.", exEn:"We have."},
+  "inte": {sv:"inte", fa:"نه", en:"not", ipa:"/ˈɪntɛ/", ex:"Inte tillräckligt.", exFa:"کافی نیست.", exEn:"Not enough."},
+  "många": {sv:"många", fa:"خیلی‌ها", en:"many", ipa:"/ˈmɔŋa/", ex:"Många ungdomar.", exFa:"جوانان زیادی.", exEn:"Many young people."},
+  "bo": {sv:"bo", fa:"زندگی کردن", en:"live", ipa:"/buː/", ex:"Vill bo.", exFa:"می‌خواهد زندگی کند.", exEn:"Wants to live."},
+  "bostad": {sv:"bostad", fa:"مسکن", en:"housing", ipa:"/ˈbuːstɑːd/", ex:"Egen bostad.", exFa:"مسکن خود.", exEn:"Own home."},
+  "lägenhet": {sv:"lägenhet", fa:"آپارتمان", en:"apartment", ipa:"/ˈlɛːɡənˌheːt/", ex:"En lägenhet.", exFa:"یک آپارتمان.", exEn:"An apartment."},
+  "storstaden": {sv:"storstaden", fa:"شهر بزرگ", en:"big city", ipa:"/ˈstuːrˌstɑːdən/", ex:"I storstaden.", exFa:"در شهر بزرگ.", exEn:"In the big city."},
+  "föräldrar": {sv:"föräldrar", fa:"والدین", en:"parents", ipa:"/ˈføːrˌɛldrar/", ex:"Hos föräldrar.", exFa:"نزد والدین.", exEn:"With parents."},
+  "kompis": {sv:"kompis", fa:"دوست", en:"friend", ipa:"/ˈkɔmpɪs/", ex:"En kompis.", exFa:"یک دوست.", exEn:"A friend."},
+  "jobb": {sv:"jobb", fa:"کار", en:"job", ipa:"/jɔb/", ex:"Hitta jobb.", exFa:"پیدا کردن کار.", exEn:"Find a job."},
+  "dyr": {sv:"dyr", fa:"گران", en:"expensive", ipa:"/dyːr/", ex:"Det är dyrt.", exFa:"گران است.", exEn:"It is expensive."},
+  "vill": {sv:"vill", fa:"می‌خواهد", en:"wants", ipa:"/vɪl/", ex:"Vill bo.", exFa:"می‌خواهد زندگی کند.", exEn:"Wants to live."},
+  "bor": {sv:"bor", fa:"زندگی می‌کند", en:"lives", ipa:"/buːr/", ex:"Bor hemma.", exFa:"در خانه زندگی می‌کند.", exEn:"Lives at home."}
 });
 
 const texts = {
@@ -270,6 +323,8 @@ function renderReading() {
     const clean = part.replace(/[.,!?;:"“”]/g, '').toLowerCase();
     if (clean && dictionary[clean]) {
       html += '<span class="word" data-word="' + clean + '">' + part + '</span>';
+    } else if (clean) {
+      html += '<span class="word" data-word="' + clean + '">' + part + '</span>';
     } else {
       html += part;
     }
@@ -279,7 +334,7 @@ function renderReading() {
     span.onclick = (e) => {
       e.stopPropagation();
       const key = span.dataset.word;
-      const entry = dictionary[key] || {sv:key, fa:"(در دیکشنری نیست)", en:"(not in dictionary)", ipa:"", ex:"", exFa:""};
+      const entry = dictionary[key] || {sv:key, fa:"(در دیکشنری نیست — دکمه Wiktionary را بزنید)", en:"(not in dictionary — click Wiktionary)", ipa:"", ex:"", exFa:"", exEn:""};
       showPopup(entry);
     };
   });
@@ -292,7 +347,7 @@ function showPopup(v) {
   document.getElementById('popFa').textContent = v.fa || '';
   document.getElementById('popEn').textContent = v.en || '';
   document.getElementById('popEx').textContent = v.ex || '';
-  document.getElementById('popExFa').textContent = v.exFa || '';
+  document.getElementById('popExFa').textContent = (v.exFa || '') + (v.exEn ? ' | ' + v.exEn : '');
   document.getElementById('popup').classList.add('show');
   document.getElementById('overlay').classList.add('show');
 }
@@ -346,7 +401,7 @@ function showFlash() {
   if (flashIndex < 0) flashIndex = flashCards.length - 1;
   const v = flashCards[flashIndex];
   document.getElementById('flashFront').textContent = v.sv;
-  document.getElementById('flashBack').innerHTML = '<strong>' + v.fa + '</strong><br>' + v.en + '<br><span class="ipa">' + (v.ipa||'') + '</span>';
+  document.getElementById('flashBack').innerHTML = '<strong>' + v.fa + '</strong><br>' + v.en + '<br><span class="ipa">' + (v.ipa||'') + '</span><br><small>' + (v.ex||'') + '</small><br><small>' + (v.exFa||'') + ' | ' + (v.exEn||'') + '</small>';
   document.getElementById('flashcard').classList.remove('flipped');
   document.getElementById('flashProgress').textContent = (flashIndex+1) + ' / ' + flashCards.length;
   currentWord = v.sv;
