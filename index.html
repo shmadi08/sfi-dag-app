@@ -82,6 +82,7 @@ textarea { width: 100%; min-height: 160px; padding: 0.8rem; border: 1px solid #d
   <p><strong>فارسی مثال:</strong> <span id="popExFa"></span></p>
   <p><strong>English example:</strong> <span id="popExEn"></span></p>
   <button class="btn" onclick="speakWord()">🔊 تلفظ</button>
+  <button class="btn secondary" onclick="openWiktionary()">📖 Wiktionary (فونتیک + صوت دقیق)</button>
   <button class="btn secondary" onclick="closePopup()">بستن</button>
 </div>
 
@@ -102,8 +103,8 @@ const weeks = {
 };
 
 const dictionary = {
-  "överens": { fa: "موافق، هم‌نظر", en: "in agreement", ipa: "/ˈøːvərɛns/", ex: "De flesta är överens." },
-  "råder": { fa: "وجود دارد، حاکم است", en: "prevails, exists", ipa: "/ˈrɔːdər/", ex: "Det råder brist." },
+  "överens": { fa: "موافق، هم‌نظر", en: "in agreement", ipa: "/ˈøːvəˌrɛns/", ex: "De flesta är överens." },
+  "råder": { fa: "وجود دارد، حاکم است", en: "prevails, exists", ipa: "/ˈroːdər/", ex: "Det råder brist." },
   "brist": { fa: "کمبود", en: "shortage", ipa: "/brɪst/", ex: "En brist på bostäder." },
   "räcker": { fa: "کافی است", en: "is enough", ipa: "/ˈrɛkər/", ex: "Det räcker inte." },
   "inneboende": { fa: "مستاجر", en: "lodger", ipa: "/ˈɪnəˌbuːəndə/", ex: "Han är inneboende." },
@@ -161,7 +162,7 @@ const dictionary = {
   "dyrt": { fa: "گران", en: "expensive", ipa: "/dyːrt/", ex: "Mycket dyrt." },
   "centalt": { fa: "مرکزی", en: "centrally", ipa: "/sɛnˈtrɑːlt/", ex: "Bo centralt." },
   "villa": { fa: "ویلا / خانه مستقل", en: "house / villa", ipa: "/ˈvɪla/", ex: "En villa." },
-  "flesta": { fa: "اکثر", en: "most", ipa: "/ˈflɛsta/", ex: "De flesta är överens.", exFa: "اکثر موافق هستند.", exEn: "Most people agree." },
+  "flesta": { fa: "اکثر", en: "most", ipa: "/ˈflɛːsta/", ex: "De flesta är överens.", exFa: "اکثر موافق هستند.", exEn: "Most people agree." },
   "nog": { fa: "احتمالاً", en: "probably", ipa: "/nuːɡ/", ex: "Är nog överens.", exFa: "احتمالاً موافق هستند.", exEn: "Are probably in agreement." },
   "om": { fa: "در مورد / اگر", en: "about / if", ipa: "/ɔm/", ex: "Överens om att.", exFa: "موافق در مورد اینکه.", exEn: "Agree that." },
   "vill": { fa: "می‌خواهد", en: "wants", ipa: "/vɪl/", ex: "Vill bo centralt.", exFa: "می‌خواهد مرکزی زندگی کند.", exEn: "Wants to live centrally." },
@@ -296,7 +297,7 @@ const dictionary = {
 
 const vocab = {
   mån: [
-    { sv: "överens", fa: "موافق، هم‌نظر", en: "in agreement", ipa: "/ˈøːvərɛns/", ex: "De flesta är överens om att det råder bostadsbrist." },
+    { sv: "överens", fa: "موافق، هم‌نظر", en: "in agreement", ipa: "/ˈøːvəˌrɛns/", ex: "De flesta är överens om att det råder bostadsbrist." },
     { sv: "att råda", fa: "وجود داشتن، حاکم بودن", en: "to prevail, to exist", ipa: "/ˈrɔːda/", ex: "Det råder bostadsbrist i storstäderna." },
     { sv: "en brist", fa: "کمبود", en: "a shortage", ipa: "/brɪst/", ex: "Det finns en brist på bostäder." },
     { sv: "att räcka till", fa: "کافی بودن", en: "to be enough", ipa: "/ˈrɛka tɪl/", ex: "Bostäderna räcker inte till." },
@@ -326,7 +327,7 @@ const vocab = {
     { sv: "få", fa: "تعداد کم", en: "few", ipa: "/foː/", ex: "Bara några få vänner." },
     { sv: "att njuta", fa: "لذت بردن", en: "to enjoy", ipa: "/ˈnjʉːta/", ex: "Vi kan inte riktigt njuta av sällskapet." },
     { sv: "ett sällskap", fa: "همراهی، جمع", en: "company", ipa: "/ˈsɛlˌskɑːp/", ex: "Varandras sällskap." },
-    { sv: "trångt", fa: "تنگ، شلوغ", en: "cramped", ipa: "/trɔŋt/", ex: "Det blir för trångt." },
+    { sv: "trångt": { fa: "تنگ، شلوغ", en: "cramped", ipa: "/trɔŋt/", ex: "Det blir för trångt." },
     { sv: "en dam", fa: "خانم (مسن)", en: "a lady", ipa: "/dɑːm/", ex: "En äldre dam knackade på." },
     { sv: "ett oväsen", fa: "سروصدا", en: "noise", ipa: "/ˈuːˌvɛːsən/", ex: "På grund av allt oväsen." },
     { sv: "att slippa", fa: "اجتناب کردن از، معاف شدن", en: "to avoid, to be spared", ipa: "/ˈslɪpa/", ex: "Man slipper tänka på matlagning." },
@@ -542,8 +543,19 @@ function speakWord() {
   if (!currentWord) return;
   const utter = new SpeechSynthesisUtterance(currentWord);
   utter.lang = 'sv-SE';
-  utter.rate = 0.75;
+  utter.rate = 0.7;
+  utter.pitch = 1;
+  const voices = speechSynthesis.getVoices();
+  const svVoice = voices.find(v => v.lang.startsWith('sv') && (v.name.includes('Swedish') || v.name.includes('Svenska') || v.name.includes('Alva') || v.name.includes('Klara')))
+    || voices.find(v => v.lang.startsWith('sv'));
+  if (svVoice) utter.voice = svVoice;
   speechSynthesis.speak(utter);
+}
+
+function openWiktionary() {
+  if (!currentWord) return;
+  const url = 'https://sv.wiktionary.org/wiki/' + encodeURIComponent(currentWord);
+  window.open(url, '_blank');
 }
 
 let flashIndex = 0;
