@@ -31,7 +31,7 @@ header h1 { margin: 0; font-size: 1.6rem; }
 .vocab-item:hover { background: #f1f8ff; }
 .vocab-word { font-weight: bold; font-size: 1.05rem; }
 .meanings { font-size: 0.85rem; color: #555; }
-.popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); z-index: 1000; max-width: 92%; width: 340px; display: none; }
+.popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); z-index: 1000; max-width: 92%; width: 360px; display: none; }
 .popup.show { display: block; }
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 999; display: none; }
 .overlay.show { display: block; }
@@ -39,8 +39,8 @@ header h1 { margin: 0; font-size: 1.6rem; }
 .btn.secondary { background: var(--secondary); }
 .btn.success { background: var(--success); }
 .btn:disabled { opacity: 0.5; }
-.reading-text { line-height: 1.85; font-size: 1.05rem; }
-.reading-text span.word { cursor: pointer; border-bottom: 1px dashed #aaa; padding: 0 2px; }
+.reading-text { line-height: 1.9; font-size: 1.05rem; }
+.reading-text span.word { cursor: pointer; border-bottom: 1px dashed #ccc; padding: 0 1px; }
 .reading-text span.word:hover, .reading-text span.word.known { background: #fff3cd; }
 .grammar-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
 .grammar-table th, .grammar-table td { border: 1px solid #ddd; padding: 0.45rem; text-align: center; }
@@ -49,15 +49,17 @@ header h1 { margin: 0; font-size: 1.6rem; }
 .quiz-option:hover { border-color: var(--secondary); }
 .quiz-option.correct { background: #d4edda; border-color: var(--success); }
 .quiz-option.wrong { background: #f8d7da; border-color: var(--primary); }
-.flashcard { background: white; border-radius: 12px; padding: 2rem 1rem; text-align: center; min-height: 180px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 1rem 0; }
+.flashcard { background: white; border-radius: 12px; padding: 2rem 1rem; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 1rem 0; }
 .flashcard .front { font-size: 1.8rem; font-weight: bold; }
 .flashcard .back { display: none; }
 .flashcard.flipped .front { display: none; }
 .flashcard.flipped .back { display: block; }
 .progress { height: 8px; background: #e9ecef; border-radius: 4px; margin: 0.8rem 0; }
 .progress-bar { height: 100%; background: var(--success); width: 0%; border-radius: 4px; transition: width 0.3s; }
-textarea { width: 100%; min-height: 140px; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1rem; }
+textarea { width: 100%; min-height: 160px; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1rem; }
 .model-answer { background: #f0f7ff; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-size: 0.95rem; }
+.structure { background: #fff8e6; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+.ipa { font-family: 'Courier New', monospace; color: #666; font-size: 0.95rem; }
 </style>
 </head>
 <body>
@@ -73,6 +75,7 @@ textarea { width: 100%; min-height: 140px; padding: 0.8rem; border: 1px solid #d
 <div class="overlay" id="overlay" onclick="closePopup()"></div>
 <div class="popup" id="popup">
   <h3 id="popWord"></h3>
+  <p class="ipa" id="popIpa"></p>
   <p><strong>فارسی:</strong> <span id="popFa"></span></p>
   <p><strong>English:</strong> <span id="popEn"></span></p>
   <p><strong>مثال:</strong> <span id="popEx"></span></p>
@@ -96,48 +99,110 @@ const weeks = {
   }
 };
 
+const dictionary = {
+  "överens": { fa: "موافق، هم‌نظر", en: "in agreement", ipa: "/ˈøːvərɛns/", ex: "De flesta är överens." },
+  "råder": { fa: "وجود دارد، حاکم است", en: "prevails, exists", ipa: "/ˈrɔːdər/", ex: "Det råder brist." },
+  "brist": { fa: "کمبود", en: "shortage", ipa: "/brɪst/", ex: "En brist på bostäder." },
+  "räcker": { fa: "کافی است", en: "is enough", ipa: "/ˈrɛkər/", ex: "Det räcker inte." },
+  "inneboende": { fa: "مستاجر", en: "lodger", ipa: "/ˈɪnəˌbuːəndə/", ex: "Han är inneboende." },
+  "befolkningen": { fa: "جمعیت", en: "the population", ipa: "/bɛˈfɔlknɪŋən/", ex: "Befolkningen ökar." },
+  "ökning": { fa: "افزایش", en: "increase", ipa: "/ˈøːknɪŋ/", ex: "En ökning." },
+  "boendekostnaderna": { fa: "هزینه‌های مسکن", en: "housing costs", ipa: "/ˈbuːəndɛˌkɔstnadɛrna/", ex: "Höga boendekostnader." },
+  "leder": { fa: "منجر می‌شود", en: "leads", ipa: "/ˈleːdər/", ex: "Det leder till problem." },
+  "råd": { fa: "استطاعت", en: "afford", ipa: "/roːd/", ex: "Har inte råd." },
+  "påtaglig": { fa: "محسوس", en: "noticeable", ipa: "/ˈpɔːˌtɑːɡlɪɡ/", ex: "Mest påtaglig." },
+  "förorterna": { fa: "حومه‌ها", en: "the suburbs", ipa: "/ˈføːrˌɔrtɛrna/", ex: "I förorterna." },
+  "dessutom": { fa: "علاوه بر این", en: "moreover", ipa: "/dɛsˈuːtɔm/", ex: "Dessutom större." },
+  "fyllde": { fa: "تولد گرفت", en: "turned (years)", ipa: "/ˈfʉldɛ/", ex: "Jag fyllde 30." },
+  "trerättersmiddag": { fa: "شام سه دوره", en: "three-course dinner", ipa: "/ˈtreːˌrɛtərsˌmɪdaɡ/", ex: "En trerättersmiddag." },
+  "trångbodda": { fa: "شلوغ زندگی می‌کنیم", en: "overcrowded", ipa: "/ˈtrɔŋˌbɔdːa/", ex: "Vi är trångbodda." },
+  "genant": { fa: "خجالت‌آور", en: "embarrassing", ipa: "/ɡɛˈnant/", ex: "Det är genant." },
+  "prioriterat": { fa: "اولویت داده‌ایم", en: "prioritized", ipa: "/priɔrɪˈteːrat/", ex: "Vi har prioriterat." },
+  "läge": { fa: "موقعیت", en: "location", ipa: "/ˈlɛːɡɛ/", ex: "Ett bra läge." },
+  "utsikt": { fa: "منظره", en: "view", ipa: "/ˈʉːtsɪkt/", ex: "Fin utsikt." },
+  "stenkast": { fa: "فاصله خیلی کم", en: "stone's throw", ipa: "/ˈsteːnˌkast/", ex: "Ett stenkast." },
+  "njuta": { fa: "لذت بردن", en: "enjoy", ipa: "/ˈnjʉːta/", ex: "Njuta av sällskapet." },
+  "sällskap": { fa: "همراهی", en: "company", ipa: "/ˈsɛlˌskɑːp/", ex: "Varandras sällskap." },
+  "trångt": { fa: "تنگ", en: "cramped", ipa: "/trɔŋt/", ex: "För trångt." },
+  "oväsen": { fa: "سروصدا", en: "noise", ipa: "/ˈuːˌvɛːsən/", ex: "Allt oväsen." },
+  "slippa": { fa: "معاف شدن از", en: "avoid", ipa: "/ˈslɪpa/", ex: "Slippa tänka." },
+  "tröttna": { fa: "خسته شدن", en: "get tired", ipa: "/ˈtrœtna/", ex: "Tröttna på." },
+  "ledsna": { fa: "حوصله‌سر رفتن", en: "get bored", ipa: "/ˈleːdsna/", ex: "Ledsna på." },
+  "gigantisk": { fa: "غول‌پیکر", en: "gigantic", ipa: "/ɡɪˈɡantɪsk/", ex: "Gigantiskt kök." },
+  "övernattning": { fa: "شب‌مانی", en: "overnight stay", ipa: "/ˈøːvərˌnatnɪŋ/", ex: "Med övernattning." },
+  "tack": { fa: "ممنون", en: "thanks", ipa: "/tak/", ex: "Tack vare." },
+  "vare": { fa: "به خاطر", en: "thanks to", ipa: "/ˈvɑːrɛ/", ex: "Tack vare dig." },
+  "det": { fa: "آن", en: "it / the", ipa: "/deːt/", ex: "Det är bra." },
+  "är": { fa: "است", en: "is / are", ipa: "/ɛːr/", ex: "Det är fint." },
+  "och": { fa: "و", en: "and", ipa: "/ɔk/", ex: "Mamma och pappa." },
+  "att": { fa: "که / به", en: "that / to", ipa: "/at/", ex: "Att bo centralt." },
+  "en": { fa: "یک (مذکر)", en: "a / an", ipa: "/ɛn/", ex: "En lägenhet." },
+  "ett": { fa: "یک (خنثی)", en: "a / an", ipa: "/ɛt/", ex: "Ett hus." },
+  "i": { fa: "در", en: "in", ipa: "/iː/", ex: "I Stockholm." },
+  "på": { fa: "روی / در", en: "on / at", ipa: "/poː/", ex: "På balkongen." },
+  "med": { fa: "با", en: "with", ipa: "/meːd/", ex: "Med min flickvän." },
+  "för": { fa: "برای", en: "for", ipa: "/føːr/", ex: "För alla." },
+  "som": { fa: "که", en: "that / which", ipa: "/sɔm/", ex: "Som bor hemma." },
+  "till": { fa: "به", en: "to", ipa: "/tɪl/", ex: "Till tunnelbanan." },
+  "av": { fa: "از", en: "of / from", ipa: "/ɑːv/", ex: "På grund av." },
+  "har": { fa: "دارد", en: "has / have", ipa: "/hɑːr/", ex: "Vi har en lägenhet." },
+  "inte": { fa: "نه", en: "not", ipa: "/ˈɪntɛ/", ex: "Inte tillräckligt." },
+  "många": { fa: "خیلی‌ها", en: "many", ipa: "/ˈmɔŋa/", ex: "Många ungdomar." },
+  "bo": { fa: "زندگی کردن", en: "live / reside", ipa: "/buː/", ex: "Vill bo centralt." },
+  "bostad": { fa: "مسکن", en: "housing / home", ipa: "/ˈbuːstɑːd/", ex: "Egen bostad." },
+  "lägenhet": { fa: "آپارتمان", en: "apartment", ipa: "/ˈlɛːɡənˌheːt/", ex: "En liten lägenhet." },
+  "storstaden": { fa: "شهر بزرگ", en: "big city", ipa: "/ˈstuːrˌstɑːdən/", ex: "I storstaden." },
+  "föräldrar": { fa: "والدین", en: "parents", ipa: "/ˈføːrˌɛldrar/", ex: "Hos föräldrar." },
+  "kompis": { fa: "دوست", en: "friend", ipa: "/ˈkɔmpɪs/", ex: "Hos en kompis." },
+  "jobb": { fa: "کار", en: "job", ipa: "/jɔb/", ex: "Hitta ett jobb." },
+  "dyr": { fa: "گران", en: "expensive", ipa: "/dyːr/", ex: "Det är dyrt." },
+  "dyrt": { fa: "گران", en: "expensive", ipa: "/dyːrt/", ex: "Mycket dyrt." },
+  "centalt": { fa: "مرکزی", en: "centrally", ipa: "/sɛnˈtrɑːlt/", ex: "Bo centralt." },
+  "villa": { fa: "ویلا / خانه مستقل", en: "house / villa", ipa: "/ˈvɪla/", ex: "En villa." }
+};
+
 const vocab = {
   mån: [
-    { sv: "överens", fa: "موافق، هم‌نظر", en: "in agreement", ex: "De flesta är överens om att det råder bostadsbrist." },
-    { sv: "att råda", fa: "وجود داشتن، حاکم بودن", en: "to prevail, to exist", ex: "Det råder bostadsbrist i storstäderna." },
-    { sv: "en brist", fa: "کمبود", en: "a shortage", ex: "Det finns en brist på bostäder." },
-    { sv: "att räcka till", fa: "کافی بودن", en: "to be enough", ex: "Bostäderna räcker inte till." },
-    { sv: "en inneboende", fa: "مستاجر (در خانه دیگران)", en: "a lodger", ex: "Han är inneboende hos en kompis." },
-    { sv: "att gå i takt (med)", fa: "هماهنگ بودن با", en: "to keep pace with", ex: "Byggandet går inte i takt med befolkningen." },
-    { sv: "en befolkning", fa: "جمعیت", en: "a population", ex: "Befolkningen ökar i städerna." },
-    { sv: "en ökning", fa: "افزایش", en: "an increase", ex: "En ökning av befolkningen." },
-    { sv: "en boendekostnad", fa: "هزینه مسکن", en: "housing cost", ex: "Boendekostnaderna är höga." },
-    { sv: "att leda till", fa: "منجر شدن به", en: "to lead to", ex: "Höga kostnader leder till problem." },
-    { sv: "att ha råd", fa: "استطاعت مالی داشتن", en: "to afford", ex: "De har inte råd att köpa bostad." },
-    { sv: "påtaglig", fa: "محسوس، آشکار", en: "noticeable", ex: "Bristen är mest påtaglig i innerstaden." },
-    { sv: "av förklarliga skäl", fa: "به دلایل واضح", en: "for obvious reasons", ex: "Många söker sig dit av förklarliga skäl." },
-    { sv: "en förort", fa: "حومه شهر", en: "a suburb", ex: "Det är billigare i förorterna." },
-    { sv: "dessutom", fa: "علاوه بر این", en: "moreover", ex: "Möjligheterna är dessutom större." },
-    { sv: "att fylla år", fa: "تولد گرفتن", en: "to have a birthday", ex: "Jag fyllde 30 år förra månaden." },
-    { sv: "en trerättersmiddag", fa: "شام سه دوره‌ای", en: "a three-course dinner", ex: "Vi åt en trerättersmiddag." },
-    { sv: "på grund av", fa: "به خاطر، به دلیل", en: "because of", ex: "Jag kunde inte bjuda dem på grund av min situation." },
-    { sv: "trångbodd", fa: "شلوغ، پر از جمعیت", en: "overcrowded", ex: "Vi är så trångbodda." },
-    { sv: "genant", fa: "خجالت‌آور", en: "embarrassing", ex: "Det är genant att svara på frågan." }
+    { sv: "överens", fa: "موافق، هم‌نظر", en: "in agreement", ipa: "/ˈøːvərɛns/", ex: "De flesta är överens om att det råder bostadsbrist." },
+    { sv: "att råda", fa: "وجود داشتن، حاکم بودن", en: "to prevail, to exist", ipa: "/ˈrɔːda/", ex: "Det råder bostadsbrist i storstäderna." },
+    { sv: "en brist", fa: "کمبود", en: "a shortage", ipa: "/brɪst/", ex: "Det finns en brist på bostäder." },
+    { sv: "att räcka till", fa: "کافی بودن", en: "to be enough", ipa: "/ˈrɛka tɪl/", ex: "Bostäderna räcker inte till." },
+    { sv: "en inneboende", fa: "مستاجر (در خانه دیگران)", en: "a lodger", ipa: "/ˈɪnəˌbuːəndə/", ex: "Han är inneboende hos en kompis." },
+    { sv: "att gå i takt (med)", fa: "هماهنگ بودن با", en: "to keep pace with", ipa: "/ɡoː iː takt/", ex: "Byggandet går inte i takt med befolkningen." },
+    { sv: "en befolkning", fa: "جمعیت", en: "a population", ipa: "/bɛˈfɔlknɪŋ/", ex: "Befolkningen ökar i städerna." },
+    { sv: "en ökning", fa: "افزایش", en: "an increase", ipa: "/ˈøːknɪŋ/", ex: "En ökning av befolkningen." },
+    { sv: "en boendekostnad", fa: "هزینه مسکن", en: "housing cost", ipa: "/ˈbuːəndɛˌkɔstnad/", ex: "Boendekostnaderna är höga." },
+    { sv: "att leda till", fa: "منجر شدن به", en: "to lead to", ipa: "/ˈleːda tɪl/", ex: "Höga kostnader leder till problem." },
+    { sv: "att ha råd", fa: "استطاعت مالی داشتن", en: "to afford", ipa: "/ha roːd/", ex: "De har inte råd att köpa bostad." },
+    { sv: "påtaglig", fa: "محسوس، آشکار", en: "noticeable", ipa: "/ˈpɔːˌtɑːɡlɪɡ/", ex: "Bristen är mest påtaglig i innerstaden." },
+    { sv: "av förklarliga skäl", fa: "به دلایل واضح", en: "for obvious reasons", ipa: "/ɑːv fœrˈklɑːrlɪɡa ʃɛːl/", ex: "Många söker sig dit av förklarliga skäl." },
+    { sv: "en förort", fa: "حومه شهر", en: "a suburb", ipa: "/ˈføːrˌɔrt/", ex: "Det är billigare i förorterna." },
+    { sv: "dessutom", fa: "علاوه بر این", en: "moreover", ipa: "/dɛsˈuːtɔm/", ex: "Möjligheterna är dessutom större." },
+    { sv: "att fylla år", fa: "تولد گرفتن", en: "to have a birthday", ipa: "/ˈfʉla ɔːr/", ex: "Jag fyllde 30 år förra månaden." },
+    { sv: "en trerättersmiddag", fa: "شام سه دوره‌ای", en: "a three-course dinner", ipa: "/ˈtreːˌrɛtərsˌmɪdaɡ/", ex: "Vi åt en trerättersmiddag." },
+    { sv: "på grund av", fa: "به خاطر، به دلیل", en: "because of", ipa: "/poː ɡrʉnd ɑːv/", ex: "Jag kunde inte bjuda dem på grund av min situation." },
+    { sv: "trångbodd", fa: "شلوغ، پر از جمعیت", en: "overcrowded", ipa: "/ˈtrɔŋˌbɔd/", ex: "Vi är så trångbodda." },
+    { sv: "genant", fa: "خجالت‌آور", en: "embarrassing", ipa: "/ɡɛˈnant/", ex: "Det är genant att svara på frågan." }
   ],
   tis: [
-    { sv: "att prioritera", fa: "اولویت دادن", en: "to prioritize", ex: "Vi har alltid prioriterat ett bra läge." },
-    { sv: "ett läge", fa: "موقعیت، مکان", en: "a location", ex: "Ett bra läge är viktigt." },
-    { sv: "att ta sig till", fa: "رسیدن به", en: "to get to", ex: "Det tar fem minuter att ta sig till tunnelbanan." },
-    { sv: "en utsikt", fa: "منظره", en: "a view", ex: "Vi har en fin utsikt från balkongen." },
-    { sv: "ett stenkast", fa: "فاصله خیلی کم", en: "a stone's throw", ex: "Butiken är ett stenkast från lägenheten." },
-    { sv: "få", fa: "تعداد کم", en: "few", ex: "Bara några få vänner." },
-    { sv: "att njuta", fa: "لذت بردن", en: "to enjoy", ex: "Vi kan inte riktigt njuta av sällskapet." },
-    { sv: "ett sällskap", fa: "همراهی، جمع", en: "company", ex: "Varandras sällskap." },
-    { sv: "trångt", fa: "تنگ، شلوغ", en: "cramped", ex: "Det blir för trångt." },
-    { sv: "en dam", fa: "خانم (مسن)", en: "a lady", ex: "En äldre dam knackade på." },
-    { sv: "ett oväsen", fa: "سروصدا", en: "noise", ex: "På grund av allt oväsen." },
-    { sv: "att slippa", fa: "اجتناب کردن از، معاف شدن", en: "to avoid, to be spared", ex: "Man slipper tänka på matlagning." },
-    { sv: "flytande", fa: "شناور", en: "floating", ex: "Ett flytande hus." },
-    { sv: "att tröttna", fa: "خسته شدن از", en: "to get tired of", ex: "Om jag skulle tröttna på omgivningen." },
-    { sv: "att ledsna", fa: "حوصله‌سر رفتن از", en: "to get bored with", ex: "Ledna på grannarna." },
-    { sv: "gigantisk", fa: "غول‌پیکر", en: "gigantic", ex: "Ett gigantiskt kök." },
-    { sv: "en övernattning", fa: "شب‌مانی", en: "an overnight stay", ex: "Med övernattning." },
-    { sv: "tack vare", fa: "به لطف", en: "thanks to", ex: "Tack vare det stora huset." }
+    { sv: "att prioritera", fa: "اولویت دادن", en: "to prioritize", ipa: "/priɔrɪˈteːra/", ex: "Vi har alltid prioriterat ett bra läge." },
+    { sv: "ett läge", fa: "موقعیت، مکان", en: "a location", ipa: "/ˈlɛːɡɛ/", ex: "Ett bra läge är viktigt." },
+    { sv: "att ta sig till", fa: "رسیدن به", en: "to get to", ipa: "/tɑː sɪɡ tɪl/", ex: "Det tar fem minuter att ta sig till tunnelbanan." },
+    { sv: "en utsikt", fa: "منظره", en: "a view", ipa: "/ˈʉːtsɪkt/", ex: "Vi har en fin utsikt från balkongen." },
+    { sv: "ett stenkast", fa: "فاصله خیلی کم", en: "a stone's throw", ipa: "/ˈsteːnˌkast/", ex: "Butiken är ett stenkast från lägenheten." },
+    { sv: "få", fa: "تعداد کم", en: "few", ipa: "/foː/", ex: "Bara några få vänner." },
+    { sv: "att njuta", fa: "لذت بردن", en: "to enjoy", ipa: "/ˈnjʉːta/", ex: "Vi kan inte riktigt njuta av sällskapet." },
+    { sv: "ett sällskap", fa: "همراهی، جمع", en: "company", ipa: "/ˈsɛlˌskɑːp/", ex: "Varandras sällskap." },
+    { sv: "trångt", fa: "تنگ، شلوغ", en: "cramped", ipa: "/trɔŋt/", ex: "Det blir för trångt." },
+    { sv: "en dam", fa: "خانم (مسن)", en: "a lady", ipa: "/dɑːm/", ex: "En äldre dam knackade på." },
+    { sv: "ett oväsen", fa: "سروصدا", en: "noise", ipa: "/ˈuːˌvɛːsən/", ex: "På grund av allt oväsen." },
+    { sv: "att slippa", fa: "اجتناب کردن از، معاف شدن", en: "to avoid, to be spared", ipa: "/ˈslɪpa/", ex: "Man slipper tänka på matlagning." },
+    { sv: "flytande", fa: "شناور", en: "floating", ipa: "/ˈflyːtandɛ/", ex: "Ett flytande hus." },
+    { sv: "att tröttna", fa: "خسته شدن از", en: "to get tired of", ipa: "/ˈtrœtna/", ex: "Om jag skulle tröttna på omgivningen." },
+    { sv: "att ledsna", fa: "حوصله‌سر رفتن از", en: "to get bored with", ipa: "/ˈleːdsna/", ex: "Ledna på grannarna." },
+    { sv: "gigantisk", fa: "غول‌پیکر", en: "gigantic", ipa: "/ɡɪˈɡantɪsk/", ex: "Ett gigantiskt kök." },
+    { sv: "en övernattning", fa: "شب‌مانی", en: "an overnight stay", ipa: "/ˈøːvərˌnatnɪŋ/", ex: "Med övernattning." },
+    { sv: "tack vare", fa: "به لطف", en: "thanks to", ipa: "/tak ˈvɑːrɛ/", ex: "Tack vare det stora huset." }
   ]
 };
 
@@ -205,14 +270,15 @@ function renderContent() {
     content.innerHTML = `
       <div class="card">
         <h2>${weeks[1].days[currentDay].title}</h2>
-        <div class="progress"><div class="progress-bar" style="width: 30%"></div></div>
+        <div class="progress"><div class="progress-bar" style="width: 35%"></div></div>
         <h3>لغات جدید <button class="btn secondary" style="float:right; font-size:0.8rem" onclick="startFlashcards()">فلش‌کارت</button></h3>
         <div id="vocabList"></div>
-        <h3 style="margin-top:1.5rem">متن خواندن (روی کلمات کلیک کنید)</h3>
+        <h3 style="margin-top:1.5rem">متن خواندن (روی هر کلمه کلیک کنید)</h3>
         <div class="reading-text" id="readingText"></div>
         <div style="margin-top:1rem">
           <a href="https://svenskadagfordag.se/ljud/ljud-svenska-dag-for-dag-d/vecka-1-d/" target="_blank" class="btn secondary">🎧 صوت رسمی</a>
           <button class="btn" onclick="startVocabQuiz()">تمرین لغات</button>
+          <button class="btn success" onclick="startSentenceQuiz()">تمرین جمله</button>
         </div>
       </div>
     `;
@@ -240,20 +306,23 @@ function renderContent() {
     content.innerHTML = `
       <div class="card">
         <h2>Torsdag – Skrivövning: Din bostad</h2>
-        <p><strong>ساختار نامه:</strong></p>
-        <ul>
-          <li>Hälsning (Hej ...)</li>
-          <li>Tack / gratulera</li>
-          <li>Svara på frågorna: hur du flyttade, tips, vad som är bra/dåligt</li>
-          <li>Avslutning (Kram / Med vänlig hälsning)</li>
-        </ul>
-        <div class="model-answer">
-          <strong>نمونه جواب کوتاه:</strong><br>
-          Hej!<br>
-          Tack för ditt brev och grattis till flytten! När jag flyttade planerade jag allt i förväg och packade sakerna i lådor. Tänk på att kolla avståndet till tunnelbanan och butiker. Området är trevligt men lite dyrt. Hoppas du trivs!<br>
-          Kram
+        <div class="structure">
+          <strong>ساختار یک نامه خوب:</strong>
+          <ol>
+            <li><b>Hälsning:</b> Hej / Hej [namn]! </li>
+            <li><b>Inledning:</b> Tack för brevet + gratulera till flytten.</li>
+            <li><b>Huvuddel:</b> Svara på frågorna (hur du flyttade, tips, för- och nackdelar med området).</li>
+            <li><b>Avslutning:</b> Hoppas du trivs / Lycka till + Kram / Med vänlig hälsning.</li>
+          </ol>
         </div>
-        <p>حالا خودتان بنویسید (حداقل ۸۰ کلمه):</p>
+        <div class="model-answer">
+          <strong>نمونه قوی‌تر:</strong><br>
+          Hej min vän!<br><br>
+          Tack så mycket för ditt brev och stort grattis till den nya bostaden! När jag flyttade planerade jag allt noga i förväg. Jag packade sakerna i märkta lådor och bokade en flyttfirma. Mitt bästa tips är att kolla hur nära det är till kollektivtrafik och butiker innan du flyttar. Området är trevligt och lugnt, men det är ganska dyrt att bo här. Jag hoppas verkligen att du kommer att trivas lika bra som jag gör!<br><br>
+          Kram<br>
+          Din vän
+        </div>
+        <p>حالا خودتان بنویسید (حداقل ۸۰–۱۰۰ کلمه):</p>
         <textarea id="writingArea" placeholder="Skriv ditt svar här..."></textarea>
         <button class="btn" style="margin-top:0.8rem" onclick="checkWriting()">بررسی نوشته</button>
         <div id="writingFeedback" style="margin-top:1rem"></div>
@@ -294,20 +363,26 @@ function renderVocab() {
 function renderReading() {
   const el = document.getElementById('readingText');
   if (!el) return;
-  let html = texts[currentDay];
-  const sortedVocab = [...vocab[currentDay]].sort((a, b) => b.sv.length - a.sv.length);
-  sortedVocab.forEach(v => {
-    const escaped = v.sv.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`(${escaped})`, 'gi');
-    html = html.replace(regex, `<span class="word known" data-word="${v.sv}">$1</span>`);
+  const text = texts[currentDay];
+  const words = text.split(/(\s+|[.,!?;:"“”])/);
+  let html = '';
+  words.forEach(part => {
+    const clean = part.replace(/[.,!?;:"“”]/g, '').toLowerCase();
+    if (clean && dictionary[clean]) {
+      html += `<span class="word known" data-word="${clean}">${part}</span>`;
+    } else if (part.trim()) {
+      html += `<span class="word" data-word="${clean || part}">${part}</span>`;
+    } else {
+      html += part;
+    }
   });
   el.innerHTML = html.replace(/\n/g, '<br>');
   el.querySelectorAll('.word').forEach(span => {
     span.onclick = (e) => {
       e.stopPropagation();
-      const word = span.dataset.word;
-      const v = vocab[currentDay].find(x => x.sv.toLowerCase() === word.toLowerCase());
-      if (v) showPopup(v);
+      const key = span.dataset.word;
+      const entry = dictionary[key] || { fa: "(معنی در دیکشنری موجود نیست)", en: "(not in dictionary)", ipa: "", ex: "" };
+      showPopup({ sv: key, ...entry });
     };
   });
 }
@@ -315,9 +390,10 @@ function renderReading() {
 function showPopup(v) {
   currentWord = v.sv;
   document.getElementById('popWord').textContent = v.sv;
-  document.getElementById('popFa').textContent = v.fa;
-  document.getElementById('popEn').textContent = v.en;
-  document.getElementById('popEx').textContent = v.ex;
+  document.getElementById('popIpa').textContent = v.ipa || '';
+  document.getElementById('popFa').textContent = v.fa || '';
+  document.getElementById('popEn').textContent = v.en || '';
+  document.getElementById('popEx').textContent = v.ex || '';
   document.getElementById('popup').classList.add('show');
   document.getElementById('overlay').classList.add('show');
 }
@@ -331,7 +407,7 @@ function speakWord() {
   if (!currentWord) return;
   const utter = new SpeechSynthesisUtterance(currentWord);
   utter.lang = 'sv-SE';
-  utter.rate = 0.8;
+  utter.rate = 0.75;
   speechSynthesis.speak(utter);
 }
 
@@ -347,6 +423,9 @@ function startFlashcards() {
       <div class="flashcard" id="flashcard" onclick="flipCard()">
         <div class="front" id="flashFront"></div>
         <div class="back" id="flashBack"></div>
+      </div>
+      <div style="text-align:center; margin:0.5rem 0">
+        <button class="btn" onclick="speakCurrentFlash()">🔊 تلفظ</button>
       </div>
       <div style="text-align:center">
         <button class="btn secondary" onclick="nextFlash(-1)">قبلی</button>
@@ -365,9 +444,10 @@ function showFlash() {
   if (flashIndex < 0) flashIndex = flashCards.length - 1;
   const v = flashCards[flashIndex];
   document.getElementById('flashFront').textContent = v.sv;
-  document.getElementById('flashBack').innerHTML = `<strong>${v.fa}</strong><br>${v.en}<br><small>${v.ex}</small>`;
+  document.getElementById('flashBack').innerHTML = `<strong>${v.fa}</strong><br>${v.en}<br><span class="ipa">${v.ipa || ''}</span><br><small>${v.ex}</small>`;
   document.getElementById('flashcard').classList.remove('flipped');
   document.getElementById('flashProgress').textContent = `${flashIndex + 1} / ${flashCards.length}`;
+  currentWord = v.sv;
 }
 
 function flipCard() {
@@ -384,6 +464,10 @@ function knowCard() {
   nextFlash(1);
 }
 
+function speakCurrentFlash() {
+  speakWord();
+}
+
 function startVocabQuiz() {
   const items = vocab[currentDay];
   const q = items[Math.floor(Math.random() * items.length)];
@@ -398,7 +482,7 @@ function startVocabQuiz() {
     <div class="card">
       <h2>تمرین لغات</h2>
       <p>معنی این کلمه چیست؟</p>
-      <h3 style="text-align:center">${q.sv}</h3>
+      <h3 style="text-align:center">${q.sv} <button class="btn secondary" style="font-size:0.8rem" onclick="currentWord='${q.sv}';speakWord()">🔊</button></h3>
       <div id="quizOptions"></div>
       <button class="btn secondary" style="margin-top:1rem" onclick="renderContent()">بازگشت</button>
     </div>
@@ -418,6 +502,42 @@ function startVocabQuiz() {
       }
     };
     optsEl.appendChild(btn);
+  });
+}
+
+function startSentenceQuiz() {
+  const sentences = [
+    { sv: "Det råder bostadsbrist i storstäderna.", fa: "در شهرهای بزرگ کمبود مسکن وجود دارد." },
+    { sv: "Bostäderna räcker inte till för alla.", fa: "مسکن‌ها برای همه کافی نیست." },
+    { sv: "Vi har alltid prioriterat ett bra läge.", fa: "ما همیشه یک موقعیت خوب را اولویت داده‌ایم." },
+    { sv: "Det tar fem minuter att ta sig till tunnelbanan.", fa: "پنج دقیقه طول می‌کشد تا به مترو برسیم." }
+  ];
+  const q = sentences[Math.floor(Math.random() * sentences.length)];
+  const content = document.getElementById('content');
+  content.innerHTML = `
+    <div class="card">
+      <h2>تمرین جمله</h2>
+      <p>معنی این جمله چیست؟</p>
+      <h3 style="text-align:center">${q.sv}</h3>
+      <button class="btn secondary" onclick="currentWord='${q.sv}';speakWord()">🔊 گوش دادن به جمله</button>
+      <div id="sentOptions" style="margin-top:1rem"></div>
+      <button class="btn secondary" style="margin-top:1rem" onclick="renderContent()">بازگشت</button>
+    </div>
+  `;
+  const opts = [q.fa, "مسکن در روستا ارزان است.", "جمعیت کم می‌شود.", "همه کار دارند."].sort(() => Math.random()-0.5);
+  const el = document.getElementById('sentOptions');
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => {
+      if (opt === q.fa) {
+        btn.classList.add('correct');
+        addScore(12);
+        setTimeout(() => startSentenceQuiz(), 900);
+      } else btn.classList.add('wrong');
+    };
+    el.appendChild(btn);
   });
 }
 
@@ -456,18 +576,21 @@ function checkWriting() {
   const text = document.getElementById('writingArea').value.trim();
   const words = text.split(/\s+/).filter(w => w.length > 0).length;
   let fb = '';
-  if (words < 60) {
-    fb = `<p style="color:#e63946">تعداد کلمات کم است (${words}). حداقل ۸۰ کلمه بنویسید.</p>`;
+  if (words < 70) {
+    fb = `<p style="color:#e63946">تعداد کلمات کم است (${words}). حداقل ۸۰–۱۰۰ کلمه بنویسید.</p>`;
   } else {
     fb = `<p style="color:#2a9d8f">خوب است! (${words} کلمه). +15 امتیاز</p>`;
     addScore(15);
   }
   const hasGreeting = /hej|hallå/i.test(text);
   const hasClosing = /kram|hälsning|vänlig/i.test(text);
+  const hasTips = /tips|tänk|kolla|planera/i.test(text);
   fb += `<ul>
     <li>${hasGreeting ? '✅' : '❌'} سلام (Hej)</li>
     <li>${hasClosing ? '✅' : '❌'} خداحافظی (Kram / hälsning)</li>
-  </ul>`;
+    <li>${hasTips ? '✅' : '❌'} نکات / tips</li>
+  </ul>
+  <p><small>برای بازخورد دقیق‌تر، نوشته را با همسرتان یا معلم بررسی کنید.</small></p>`;
   document.getElementById('writingFeedback').innerHTML = fb;
 }
 
