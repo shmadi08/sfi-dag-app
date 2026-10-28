@@ -44,8 +44,8 @@ header h1 { margin:0; font-size:1.6rem; }
 textarea { width:100%; min-height:140px; padding:.8rem; border:1px solid #ddd; border-radius:8px; font-family:inherit; }
 .ipa { font-family:monospace; color:#666; font-size:.9rem; }
 .ex-box { background:#f8f9fa; padding:.8rem; border-radius:8px; margin:.5rem 0; }
-.score { font-size:.9rem; opacity:.9; direction:ltr; unicode-bidi:isolate; }
-.fa { direction:rtl; text-align:right; }
+.score { font-size:.9rem; opacity:.9; }
+.fa { direction:rtl; text-align:right; display:inline-block; }
 table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:.9rem; }
 th, td { padding:.4rem .3rem; text-align:center; border:1px solid #eee; }
 th { background:#f1f8ff; }
@@ -54,7 +54,7 @@ th { background:#f1f8ff; }
 <body>
 <header>
   <h1>SFI Dag</h1>
-  <div class="score" id="scoreDisplay">امتیاز: 0 | پیشرفت: 0%</div>
+  <div class="score" id="scoreDisplay"><span style="direction:ltr;unicode-bidi:isolate">امتیاز: 0 | پیشرفت: 0%</span></div>
 </header>
 <div class="container">
   <div class="nav" id="weekNav"></div>
@@ -68,8 +68,8 @@ th { background:#f1f8ff; }
   <p><strong>فارسی:</strong> <span id="popFa" class="fa"></span></p>
   <p><strong>English:</strong> <span id="popEn"></span></p>
   <div class="ex-box" id="exBox" style="display:none">
-    <p><strong>مثال:</strong> <span id="popEx" class="clickable-text"></span></p>
-    <p><strong>فارسی مثال:</strong> <span id="popExFa" class="fa"></span></p>
+    <p><strong>Exempel:</strong> <span id="popEx" class="clickable-text"></span></p>
+    <p><strong>Översättning (فارسی):</strong> <span id="popExFa" class="fa"></span></p>
     <p><strong>English example:</strong> <span id="popExEn"></span></p>
   </div>
   <button class="btn" onclick="speakWord()">🔊 تلفظ</button>
@@ -179,8 +179,7 @@ function updateScore() {
   const total = Object.keys(dictionary).length;
   const pct = Math.round((learned.length / Math.max(total,1)) * 100);
   const el = document.getElementById('scoreDisplay');
-  el.textContent = 'امتیاز: ' + score + ' | پیشرفت: ' + pct + '%';
-  el.style.direction = 'ltr';
+  el.innerHTML = '<span style="direction:ltr;unicode-bidi:isolate">امتیاز: ' + score + ' | پیشرفت: ' + pct + '%</span>';
 }
 
 function init() {
@@ -296,10 +295,10 @@ function renderContent() {
         <h2>Onsdag – Grammatik: Indefinita pronomen</h2>
         <div class="clickable-text" id="grammarText">
           <p class="fa">ضمایر نامعین (Indefinita pronomen) برای بیان چیزی نامشخص درباره اشخاص یا اشیا استفاده می‌شوند. این ضمایر بسته به جنس (en/ett) و تعداد (مفرد/جمع) شکل متفاوتی دارند.</p>
-          <p>مثال: Vi har <span class="word" data-word="en">en</span> bra <span class="word" data-word="utsikt">utsikt</span>.</p>
-          <p>مثال: <span class="word" data-word="ingen">Ingen</span> av dem har <span class="word" data-word="råd">råd</span>.</p>
-          <p>مثال: <span class="word" data-word="några">Några</span> ungdomar bor fortfarande hemma.</p>
-          <p>مثال: <span class="word" data-word="alla">Alla</span> vill ha en egen bostad.</p>
+          <p>Exempel: Vi har <span class="word" data-word="en">en</span> bra <span class="word" data-word="utsikt">utsikt</span>.</p>
+          <p>Exempel: <span class="word" data-word="ingen">Ingen</span> av dem har <span class="word" data-word="råd">råd</span>.</p>
+          <p>Exempel: <span class="word" data-word="några">Några</span> ungdomar bor fortfarande hemma.</p>
+          <p>Exempel: <span class="word" data-word="alla">Alla</span> vill ha en egen bostad.</p>
         </div>
         <table>
           <tr><th>En</th><th>Ett</th><th>Plural</th><th>Personer</th><th>Saker</th></tr>
@@ -345,13 +344,39 @@ function renderContent() {
         <h2>Fredag – Hör och tal</h2>
         <p class="fa">به صوت رسمی گوش دهید و به سوالات کتاب پاسخ دهید.</p>
         <a href="https://svenskadagfordag.se/ljud/ljud-svenska-dag-for-dag-d/vecka-1-hoeroevningar-d/" target="_blank" class="btn">🎧 Hörövningar</a>
-        <h3 style="margin-top:1.5rem" class="fa">تمرین صحبت کردن</h3>
+        <h3 style="margin-top:1.5rem" class="fa">تمرین صحبت کردن (30+ سوال)</h3>
         <div class="clickable-text" id="speakText">
           <ul>
             <li>Hur bor du just nu?</li>
             <li>Vad är viktigt för dig när du väljer bostad?</li>
             <li>Vilka fördelar och nackdelar har ditt område?</li>
             <li>Skulle du vilja bo centralt eller längre ut?</li>
+            <li>Har du bott i en storstad tidigare?</li>
+            <li>Vad tycker du om att bo nära kollektivtrafik?</li>
+            <li>Är det dyrt att bo där du bor?</li>
+            <li>Kan du bjuda hem dina vänner?</li>
+            <li>Vad saknar du i ditt nuvarande boende?</li>
+            <li>Hur länge har du bott i Sverige?</li>
+            <li>Vill du köpa en egen bostad i framtiden?</li>
+            <li>Vad är din drömboende?</li>
+            <li>Trivs du med dina grannar?</li>
+            <li>Är det tyst eller oväsen där du bor?</li>
+            <li>Hur tar du dig till jobbet eller skolan?</li>
+            <li>Vad är det bästa med ditt område?</li>
+            <li>Vad är det sämsta med ditt område?</li>
+            <li>Skulle du rekommendera ditt område till en vän?</li>
+            <li>Hur många rum har din bostad?</li>
+            <li>Har du balkong eller trädgård?</li>
+            <li>Vad kostar din hyra ungefär?</li>
+            <li>Är det lätt att hitta bostad i din stad?</li>
+            <li>Vad tycker du om nyproducerade bostäder?</li>
+            <li>Bor du ensam eller tillsammans med någon?</li>
+            <li>Har du husdjur?</li>
+            <li>Vad gör du på kvällarna hemma?</li>
+            <li>Är det viktigt med utsikt för dig?</li>
+            <li>Hur nära är det till närmaste affär?</li>
+            <li>Skulle du kunna tänka dig att bo på landet?</li>
+            <li>Vad är viktigast: läge, storlek eller pris?</li>
           </ul>
         </div>
         <button class="btn" onclick="currentWord='Hur bor du just nu?';speakWord()">🔊 گوش دادن به سوال</button>
