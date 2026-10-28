@@ -281,7 +281,34 @@ function handleWordClick(key) {
   }
 }
 
-const grammarExamples = `Exempel på attributiva indefinita pronomen:\n\nEn hemlös har inte någon bostad. (en bostad)\nDu behöver inte ta något bolån. (ett bolån)\nDe har inte några räkningar att betala. (räkningar – plural)\nEn hemlös har ingen bostad.\nDu behöver inget bolån.\nDe har inga räkningar att betala.\nDe ska flytta till en annan lägenhet. (en lägenhet)\nNi ska flytta till ett annat hus. (ett hus)\nI dag flyttar andra hyresgäster in i vårt flervåningshus. (hyresgäster – plural)\nJag tycker inte om all städning i huset. (en städning)\nAllt oväsen kommer från grannen som bor bredvid. (ett oväsen)\nAlla människor vill inte bo i villa. (människor – plural)\n\nExempel på självständiga indefinita pronomen:\n\nHar någon sett min mobiltelefon?\nFinns det några som vill åka hem nu?\nVarför är alla så ledsna? Har det hänt något/någonting?\nIngen har ringt mig i dag. Vad skönt!\nVarför är inga ungdomar intresserade?\n– Vad sa du?\n– Jag sa inget/ingenting!\nDet finns ingen annan än du i mitt liv.\nDet finns andra som vill sitta här.\nDet finns annat man kan göra i livet än att läsa svenska.\nIngen kan göra allt, men alla kan göra något.\nVänta! Jag har inte sagt allt!`;
+const grammarExamples = [
+  "<strong>Exempel på attributiva indefinita pronomen:</strong>",
+  "En hemlös har inte någon bostad. (en bostad)",
+  "Du behöver inte ta något bolån. (ett bolån)",
+  "De har inte några räkningar att betala. (räkningar – plural)",
+  "En hemlös har ingen bostad.",
+  "Du behöver inget bolån.",
+  "De har inga räkningar att betala.",
+  "De ska flytta till en annan lägenhet. (en lägenhet)",
+  "Ni ska flytta till ett annat hus. (ett hus)",
+  "I dag flyttar andra hyresgäster in i vårt flervåningshus. (hyresgäster – plural)",
+  "Jag tycker inte om all städning i huset. (en städning)",
+  "Allt oväsen kommer från grannen som bor bredvid. (ett oväsen)",
+  "Alla människor vill inte bo i villa. (människor – plural)",
+  "<br><strong>Exempel på självständiga indefinita pronomen:</strong>",
+  "Har någon sett min mobiltelefon?",
+  "Finns det några som vill åka hem nu?",
+  "Varför är alla så ledsna? Har det hänt något/någonting?",
+  "Ingen har ringt mig i dag. Vad skönt!",
+  "Varför är inga ungdomar intresserade?",
+  "– Vad sa du?",
+  "– Jag sa inget/ingenting!",
+  "Det finns ingen annan än du i mitt liv.",
+  "Det finns andra som vill sitta här.",
+  "Det finns annat man kan göra i livet än att läsa svenska.",
+  "Ingen kan göra allt, men alla kan göra något.",
+  "Vänta! Jag har inte sagt allt!"
+];
 
 function renderContent() {
   const content = document.getElementById('content');
@@ -327,8 +354,10 @@ function renderContent() {
     const gText = document.getElementById('grammarText');
     const gEx = document.getElementById('grammarEx');
     gText.innerHTML = makeClickable('Pronomen\n\nIndefinita pronomen uttrycker någonting obestämt om personer eller saker.');
-    const lines = grammarExamples.replace(/\\n/g, '\n').split('\n');
-    gEx.innerHTML = lines.map(line => makeClickable(line)).join('<br><br>');
+    gEx.innerHTML = grammarExamples.map(line => {
+      if (line.startsWith('<')) return line;
+      return makeClickable(line);
+    }).join('<br><br>');
     attachClickHandlers(gText);
     attachClickHandlers(gEx);
   } else if (currentDay === 'tors') {
