@@ -125,18 +125,6 @@ const vocab = {
   ]
 };
 
-
-const weekVocab = {
-  2: ["en famn","en fjärrkontroll","att zappa","att sucka","att förstöra","oskyldig","tokig","att lida","en värk","ta sig i kragen","att märka","sliten","att skapa","att lägga av","att överdriva","att försämra","att göra någonting åt det","att tjata","att stoppa i","en simhall","åtminstone","framför allt","att resa sig upp"],
-  3: ["gårdagen","att ha en uppfattning","att se fram emot","ett slit","välförtjänt","ett andrum","att hinna","så gott jag kan","en stillhet","en tillvaro","en plikt","att jaga","att slappna av","närma sig","på något sätt","mycket mer","en väninna","ett ställe","vissa","att turas om","till fullo","en slump"],
-  4: ["att minnas","skrämmande","allvarlig","förhoppningsvis","en fröken","ett skolämne","en årskurs","att blekna","en lust","helt och hållet","med nöd och näppe","att anstränga sig","ämneskunnig","usel","att vända","att klara prov","ett betyg","att stötta","att uppmuntra","en skilsmässa"],
-  5: ["att bestå av","en barnskötare","ett barnbidrag","en fritidsaktivitet","en boendekostnad","att ingå","sophämtning","en försäkring","var sin","att gå på","inför","med tanke på","ett inköp","att inse","ett läge","gemensam","en knipa","att ha koll","varken ... eller","att gå upp i rök","från och med","att räkna","att lägga ihop","att dra av","kvar","spontan"],
-  6: ["ett sammanhang","en omgivning","riskfri","ofarlig","att vistas","att utsätta","en fara","en ljudnivå","en hänsyn","en hörsel","ett skrik","bullrig","Arbetsmiljöverket","att se till","att känneteckna","en atmosfär","en stämning","en tillit","anpassad","smidig","en ventilation","en komplikation","skyldig","att ordna","handla om"],
-  7: ["att handla om","att uppleva","dyster","deprimerande","andra sidan av samma mynt","lovande","spikrak","att ta för givet","enorm","att ge upp","nuvarande","en utmaning","så småningom","att kämpa","målet i sikte","att nedslås","legitimerad"],
-  8: ["att sträva","berikande","en aspekt","att förknippa","att påverka","att förneka","mödosam","allt eftersom","att inse","att etablera sig","att begripa","ett tag","tillfällig","massor","feg","smidig","reflekterande","att yttra sig","att fundera","en dos","att skynda på"],
-  9: ["uppvuxen","att lida","en sjukdom","att få reda på","ett förhållande","otrogen","att bli kär","att dumpa","att sticka iväg","att hinna","olaglig","huvudsaken","en uppfostran","att uppfostra","att växa upp","en lantbrukare","att förbereda","nämligen","ett oväsen","att förstöra","att ställa upp","att slita","att sköta","ett hushållsarbete","att försumma","ett umgänge"]
-};
-
 const dictionary = {};
 Object.keys(vocab).forEach(day => {
   vocab[day].forEach(v => {
@@ -325,36 +313,24 @@ const grammarExamples = [
 function renderContent() {
   const content = document.getElementById('content');
   // Content for all weeks
-  // Full weeks content active (real from PDF)
   const weekThemes = {
     1: "Bostad",
-    2: "Sjukvård och hälsa",
-    3: "Fritid och resor",
-    4: "Skola och utbildning",
-    5: "Pengar och ekonomi",
-    6: "Miljö",
-    7: "Arbete",
-    8: "Språkinlärning",
-    9: "Familj och relationer"
-  };
-  const weekTexts = {
-    2: "Silvana är arg på sin man Marvin. Han klagar hela tiden och skyller på andra. Silvana säger att han måste ta sig i kragen och sluta överdriva. Marvin är sliten och har en värk. Silvana tycker att han måste skapa en förändring. Han klagar hela tiden och skyller på andra. Silvana ger honom råd men han tycker att hon överdriver. Hon säger att han måste ta sig i kragen.",
-    3: "Rimona och Sascha tycker att helgerna inte är till någon större nytta. Det viktigaste för Sascha är att hinna slappna av och få ett andrum. Rimona gillar långa semestrar och planerar dem varje år. Det viktigaste för Sascha är att hinna slappna av och få ett andrum. Rimona gillar långa semestrar och planerar dem varje år. Rimona gillar långa semestrar.",
-    4: "Peter Dahlkvists första skoldag var både spännande och skrämmande. Skolintresset började minska på högstadiet. En bra lärare stöttar eleven. Skolintresset började minska på högstadiet. En bra lärare stöttar och uppmuntrar.",
-    5: "Familjen småhandlar varje vecka. Deras största utgift är mat. De behöver nya kläder. Föräldrarna blir chockade när de inser läget. De måste göra en budget, räkna inkomster och utgifter och rätta munnen efter matsäcken. Deras största utgift är mat. De behöver nya kläder till barnen. Föräldrarna blir chockade när de inser läget. Budgeten ska hjälpa dem.",
-    6: "En bra arbetsmiljö är riskfri. Arbetsmiljöverket ställer krav på arbetsgivare. Arbetsplatsen måste vara anpassad och säker.",
-    7: "Man kan inte ta det för givet att man ska lyckas. Flora kom till Sverige från Ryssland. Nyckeln var att kämpa, inte ge upp och ha målet i sikte. Hon är nu legitimerad lärare i engelska och svenska som andraspråk. Flora kom till Sverige som 40-åring från Ryssland. Nyckeln till hennes framgång var tålamod och att inte ge upp.",
-    8: "Susanne tror att man måste hitta sin egen motivation om man vill lära sig ett främmande språk. Alla kan lära sig språk. Det kräver en stor dos tålamod. Man får inte skynda på processen. Alla kan lära sig språk oavsett ålder. Det kräver en stor dos tålamod. Man får inte skynda på processen.",
-    9: "Margareta växte upp på landet. Hennes pappa var lantbrukare. Mamma ställde alltid upp för barnen trots allt hushållsarbete. Hon försummade aldrig deras behov av umgänge. Hennes pappa var lantbrukare och arbetade från tidigt på morgonen till sent på kvällen. Mamma tog hand om barnen och ställde alltid upp för dem."
+    2: "Arbete",
+    3: "Hälsa",
+    4: "Familj",
+    5: "Mat",
+    6: "Resor",
+    7: "Skola",
+    8: "Fritid",
+    9: "Samhälle"
   };
   const theme = weekThemes[currentWeek] || "Tema";
 
   if (currentDay === 'mån' || currentDay === 'tis') {
     let html = '<div class="card"><h2>Vecka ' + currentWeek + ' (' + theme + ') – ' + (currentDay === 'mån' ? 'Måndag' : 'Tisdag') + '</h2>';
-    const realText = weekTexts[currentWeek] || ('Vecka ' + currentWeek + ': ' + theme + '. Innehåll från boken Svenska dag för dag.'); html += '<div class="clickable-text">' + makeClickable(realText) + '</div>';
+    html += '<div class="clickable-text">' + makeClickable('Detta är texten för vecka ' + currentWeek + '. Vi lär oss om ' + theme.toLowerCase() + '.') + '</div>';
     html += '<div style="margin-top:1rem">';
-    const weekWords = weekVocab[currentWeek] || [];
-    const dayVocab = (currentWeek === 1) ? (vocab[currentDay] || vocab['mån']) : weekWords.map(w => ({sv: w, fa: "از کتاب", en: "from book", ipa: ""}));
+    const dayVocab = vocab[currentDay] || vocab['mån'];
     dayVocab.forEach(v => {
       html += '<div class="vocab-item" data-word="' + v.sv.split(' ')[0].toLowerCase() + '" onclick="showPopup(this.dataset.word)">';
       html += '<span class="vocab-word">' + v.sv + '</span>';
