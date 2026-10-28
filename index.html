@@ -31,6 +31,7 @@ header h1 { margin:0; font-size:1.6rem; }
 .btn.success { background:var(--success); }
 .clickable-text span.word { cursor:pointer; border-bottom:1px dashed #ccc; padding:0 1px; }
 .clickable-text span.word:hover { background:#fff3cd; border-radius:3px; }
+.clickable-text { line-height:1.8; }
 .flashcard { background:white; border-radius:12px; padding:2rem 1rem; text-align:center; min-height:200px; display:flex; flex-direction:column; justify-content:center; cursor:pointer; box-shadow:0 4px 15px rgba(0,0,0,.1); margin:1rem 0; }
 .flashcard .front { font-size:1.8rem; font-weight:bold; }
 .flashcard .back { display:none; }
@@ -320,13 +321,13 @@ function renderContent() {
           <tr><td>annan</td><td>annat</td><td>andra</td><td>annan, andra</td><td>annat</td></tr>
           <tr><td>all</td><td>allt</td><td>alla</td><td>alla</td><td>allt, allting</td></tr>
         </table>
-        <div class="clickable-text" id="grammarEx"></div>
+        <div class="clickable-text" id="grammarEx" style="line-height:1.9;margin-top:1rem"></div>
         <button class="btn" onclick="startGrammarQuiz()">تمرین گرامر</button>
       </div>`;
     const gText = document.getElementById('grammarText');
     const gEx = document.getElementById('grammarEx');
     gText.innerHTML = makeClickable('Pronomen\n\nIndefinita pronomen uttrycker någonting obestämt om personer eller saker.');
-    gEx.innerHTML = makeClickable(grammarExamples).replace(/\\n/g, '<br>');
+    gEx.innerHTML = grammarExamples.split('\\n').map(line => makeClickable(line)).join('<br>');
     attachClickHandlers(gText);
     attachClickHandlers(gEx);
   } else if (currentDay === 'tors') {
