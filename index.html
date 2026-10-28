@@ -364,7 +364,7 @@ function renderContent() {
     content.innerHTML = `
       <div class="card">
         <h2>Torsdag – Skrivövning</h2>
-        <div class="structure" id="structureText">
+        <div class="structure clickable-text" id="structureText">
           <strong class="fa">ساختار نامه خوب:</strong>
           <ol>
             <li><b>Hälsning:</b> Hej / Hej [namn]!</li>
@@ -373,26 +373,32 @@ function renderContent() {
             <li><b>Avslutning:</b> Hoppas du trivs + Kram / Med vänlig hälsning</li>
           </ol>
         </div>
-        <div class="model-answer clickable-text" id="modelText">
-          <strong class="fa">نمونه کامل:</strong><br>
-          Hej min vän!<br><br>
-          Tack så mycket för ditt brev och stort grattis till den nya bostaden! Jag är så glad för din skull.<br><br>
-          När jag flyttade planerade jag allt noga. Först kollade jag hur nära det var till kollektivtrafik och affärer. Mitt bästa tips är att alltid besöka området på kvällen också, så att du ser hur det känns när det är mörkt. Området där jag bor är trevligt men ganska dyrt. Det finns många restauranger och parker i närheten, men hyreskostnaderna är höga.<br><br>
-          Jag hoppas att du trivs i din nya bostad!<br><br>
-          Kram<br>Din vän
-        </div>
+        <div class="model-answer clickable-text" id="modelText"></div>
         <p class="fa">حالا خودتان بنویسید (حداقل ۸۰ کلمه):</p>
         <textarea id="writingArea" placeholder="Skriv ditt svar här..."></textarea>
         <button class="btn" style="margin-top:.8rem" onclick="checkWriting()">بررسی نوشته</button>
         <div id="writingFeedback"></div>
       </div>`;
-    attachClickHandlers(document.getElementById('modelText'));
+    const model = document.getElementById('modelText');
+    const letter = "نمونه کامل:\n\nHej min vän!\n\nTack så mycket för ditt brev och stort grattis till den nya bostaden! Jag är så glad för din skull.\n\nNär jag flyttade planerade jag allt noga. Först kollade jag hur nära det var till kollektivtrafik och affärer. Mitt bästa tips är att alltid besöka området på kvällen också, så att du ser hur det känns när det är mörkt. Området där jag bor är trevligt men ganska dyrt. Det finns många restauranger och parker i närheten, men hyreskostnaderna är höga.\n\nJag hoppas att du trivs i din nya bostad!\n\nKram\nDin vän";
+    model.innerHTML = '<strong class="fa">نمونه کامل:</strong><br>' + makeClickable(letter).replace(/\n/g, '<br>');
+    attachClickHandlers(document.getElementById('structureText'));
+    attachClickHandlers(model);
   } else {
     content.innerHTML = `
       <div class="card">
         <h2>Fredag – Hör och tal</h2>
         <p class="fa">به صوت رسمی گوش دهید و به سوالات کتاب پاسخ دهید.</p>
         <a href="https://svenskadagfordag.se/ljud/ljud-svenska-dag-for-dag-d/vecka-1-hoeroevningar-d/" target="_blank" class="btn">🎧 Hörövningar</a>
+        
+        <h3 style="margin-top:1.5rem">Hörövning A – Jakob</h3>
+        <p class="clickable-text" id="horAText">Lyssna till Jakob som berättar om hur han bor. Välj rätt svar på frågorna.</p>
+        <div id="horA"></div>
+        
+        <h3 style="margin-top:1.5rem">Hörövning B – Stefan</h3>
+        <p class="clickable-text" id="horBText">Lyssna till Stefans berättelse. Välj sedan rätt svar på frågorna.</p>
+        <div id="horB"></div>
+        
         <h3 style="margin-top:1.5rem" class="fa">تمرین صحبت کردن (30+ سوال)</h3>
         <div class="clickable-text" id="speakText">
           <ul>
@@ -431,6 +437,10 @@ function renderContent() {
         <button class="btn" onclick="currentWord='Hur bor du just nu?';speakWord()">🔊 گوش دادن به سوال</button>
       </div>`;
     attachClickHandlers(document.getElementById('speakText'));
+    attachClickHandlers(document.getElementById('horAText'));
+    attachClickHandlers(document.getElementById('horBText'));
+    renderHorA();
+    renderHorB();
   }
 }
 
@@ -663,6 +673,90 @@ function checkWriting() {
   fb += '<ul><li>' + (/hej/i.test(text)?'✅':'❌') + ' سلام (Hej)</li>';
   fb += '<li>' + (/kram|hälsning/i.test(text)?'✅':'❌') + ' خداحافظی</li></ul>';
   document.getElementById('writingFeedback').innerHTML = fb;
+}
+
+
+function renderHorA() {
+  const questions = [
+    {q: "Hur bor Jakob?", opts: ["Hos sina föräldrar i en villa.", "Inneboende i en lägenhet.", "Ensam i en etta."], ans: 1},
+    {q: "Varför kan det vara svårt att glädjas åt en bostad när man väl hittar en?", opts: ["Bostaden är dyr.", "Bostaden är inte fin.", "Bostaden är stor."], ans: 0},
+    {q: "Var bodde Jakob i berättelsen tidigare?", opts: ["I stan.", "På landet.", "I en förort."], ans: 1},
+    {q: "Varför flyttade Jakob?", opts: ["På grund av dåliga relationer.", "På grund av kompisens kärleksrelation.", "På grund av att bostaden var trång."], ans: 1},
+    {q: "Varför vill han inte bo ensam?", opts: ["Han vill ha pengar till andra saker också.", "Han vill dela på handling och matlagning med andra.", "Det är jobbigt att städa själv hemma."], ans: 1},
+    {q: "Vad är den bästa lösningen, enligt Jakob?", opts: ["Att man bygger fler bostäder.", "Att flera bor tillsammans.", "Billigare bostäder."], ans: 1}
+  ];
+  const el = document.getElementById('horA');
+  if (!el) return;
+  el.innerHTML = '';
+  questions.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.style.marginBottom = '1rem';
+    div.innerHTML = '<p class="clickable-text"><b>' + (i+1) + '.</b> ' + makeClickable(item.q) + '</p>';
+    item.opts.forEach((opt, j) => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.innerHTML = makeClickable(opt);
+      btn.onclick = () => {
+        if (j === item.ans) {
+          btn.classList.add('correct');
+          score += 5;
+          saveProgress();
+        } else {
+          btn.classList.add('wrong');
+        }
+        attachClickHandlers(btn);
+      };
+      div.appendChild(btn);
+    });
+    el.appendChild(div);
+    attachClickHandlers(div);
+  });
+}
+
+function renderHorB() {
+  const questions = [
+    {q: "Hur reagerar vissa människor på bostadsbristen?", opts: ["Människor blir arga.", "Människor blir hjälpsamma.", "Människor blir nonchalanta."], ans: 1},
+    {q: "På vilken våning bor Stefan?", opts: ["På våning 4.", "På våning 5.", "På våning 6."], ans: 1},
+    {q: "Var ser Stefan hemlösa?", opts: ["Nära sitt hem.", "Nära centrum.", "Vid tunnelbanan."], ans: 2},
+    {q: "Vad gjorde Stefan?", opts: ["Öppnade sitt hem för en hemlös.", "Gav pengar till en hemlös.", "Gav varma kläder och filtar till en hemlös."], ans: 2}
+  ];
+  const el = document.getElementById('horB');
+  if (!el) return;
+  el.innerHTML = '';
+  questions.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.style.marginBottom = '1rem';
+    div.innerHTML = '<p class="clickable-text"><b>' + (i+1) + '.</b> ' + makeClickable(item.q) + '</p>';
+    item.opts.forEach((opt, j) => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.innerHTML = makeClickable(opt);
+      btn.onclick = () => {
+        if (j === item.ans) {
+          btn.classList.add('correct');
+          score += 5;
+          saveProgress();
+        } else {
+          btn.classList.add('wrong');
+        }
+        attachClickHandlers(btn);
+      };
+      div.appendChild(btn);
+    });
+    el.appendChild(div);
+    attachClickHandlers(div);
+  });
+}
+
+function init() {
+  try {
+    renderWeekNav();
+    renderDayTabs();
+    renderContent();
+    updateScore();
+  } catch(e) {
+    document.getElementById('content').innerHTML = '<div class="card" style="color:red">خطا: ' + e.message + '</div>';
+  }
 }
 
 init();
