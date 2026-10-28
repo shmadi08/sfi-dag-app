@@ -327,7 +327,8 @@ function renderContent() {
     const gText = document.getElementById('grammarText');
     const gEx = document.getElementById('grammarEx');
     gText.innerHTML = makeClickable('Pronomen\n\nIndefinita pronomen uttrycker någonting obestämt om personer eller saker.');
-    gEx.innerHTML = grammarExamples.split('\\n').map(line => makeClickable(line)).join('<br>');
+    const lines = grammarExamples.replace(/\\n/g, '\n').split('\n');
+    gEx.innerHTML = lines.map(line => makeClickable(line)).join('<br><br>');
     attachClickHandlers(gText);
     attachClickHandlers(gEx);
   } else if (currentDay === 'tors') {
