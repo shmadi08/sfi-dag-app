@@ -54,7 +54,7 @@ th { background:#f1f8ff; }
 <body>
 <header>
   <h1>SFI Dag</h1>
-  <div class="score" id="scoreDisplay"><span style="direction:ltr;unicode-bidi:isolate">امتیاز: 0 | پیشرفت: 0%</span></div>
+  <div class="score" id="scoreDisplay"><span dir="ltr" style="unicode-bidi:isolate;direction:ltr">Score: 0 | Progress: 0%</span></div>
 </header>
 <div class="container">
   <div class="nav" id="weekNav"></div>
@@ -69,8 +69,8 @@ th { background:#f1f8ff; }
   <p><strong>English:</strong> <span id="popEn"></span></p>
   <div class="ex-box" id="exBox" style="display:none">
     <p><strong>Exempel:</strong> <span id="popEx" class="clickable-text"></span></p>
-    <p><strong>Översättning (فارسی):</strong> <span id="popExFa" class="fa"></span></p>
-    <p><strong>English example:</strong> <span id="popExEn"></span></p>
+    <p><strong>فارسی:</strong> <span id="popExFa" class="fa"></span></p>
+    <p><strong>English:</strong> <span id="popExEn"></span></p>
   </div>
   <button class="btn" onclick="speakWord()">🔊 تلفظ</button>
   <button class="btn secondary" onclick="openWiktionary()">📖 Wiktionary</button>
@@ -186,7 +186,7 @@ function updateScore() {
   const total = Object.keys(dictionary).length;
   const pct = Math.round((learned.length / Math.max(total,1)) * 100);
   const el = document.getElementById('scoreDisplay');
-  el.innerHTML = '<span style="direction:ltr;unicode-bidi:isolate">امتیاز: ' + score + ' | پیشرفت: ' + pct + '%</span>';
+  el.innerHTML = '<span dir="ltr" style="unicode-bidi:isolate;direction:ltr">Score: ' + score + ' | Progress: ' + pct + '%</span>';
 }
 
 function init() {
