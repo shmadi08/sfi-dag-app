@@ -321,9 +321,7 @@ function renderReading() {
   let html = '';
   parts.forEach(part => {
     const clean = part.replace(/[.,!?;:"“”]/g, '').toLowerCase();
-    if (clean && dictionary[clean]) {
-      html += '<span class="word" data-word="' + clean + '">' + part + '</span>';
-    } else if (clean) {
+    if (clean) {
       html += '<span class="word" data-word="' + clean + '">' + part + '</span>';
     } else {
       html += part;
@@ -334,10 +332,43 @@ function renderReading() {
     span.onclick = (e) => {
       e.stopPropagation();
       const key = span.dataset.word;
-      const entry = dictionary[key] || {sv:key, fa:"(در دیکشنری نیست — دکمه Wiktionary را بزنید)", en:"(not in dictionary — click Wiktionary)", ipa:"", ex:"", exFa:"", exEn:""};
+      let entry = dictionary[key];
+      if (!entry) {
+        showPopup({sv:key, fa:"در حال جستجو...", en:"Searching...", ipa:"", ex:"", exFa:"", exEn:""});
+        fetchMeaning(key).then(result => {
+          if (result) {
+            dictionary[key] = result;
+            showPopup(result);
+          } else {
+            showPopup({sv:key, fa:"(یافت نشد — Wiktionary را بزنید)", en:"(not found — try Wiktionary)", ipa:"", ex:"", exFa:"", exEn:""});
+          }
+        });
+        return;
+      }
       showPopup(entry);
     };
   });
+}
+
+async function fetchMeaning(word) {
+  if (!word) return null;
+  try {
+    const resEn = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=sv|en');
+    const dataEn = await resEn.json();
+    const en = dataEn?.responseData?.translatedText || '';
+    let fa = '';
+    if (en && en.toLowerCase() !== word.toLowerCase()) {
+      const resFa = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(en) + '&langpair=en|fa');
+      const dataFa = await resFa.json();
+      fa = dataFa?.responseData?.translatedText || '';
+    }
+    if (en || fa) {
+      return { sv: word, fa: fa || '(ترجمه خودکار)', en: en || '(auto)', ipa: '', ex: '', exFa: '', exEn: '' };
+    }
+  } catch(e) {
+    console.log('API error:', e);
+  }
+  return null;
 }
 
 function showPopup(v) {
