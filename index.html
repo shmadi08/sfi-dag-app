@@ -280,6 +280,8 @@ function handleWordClick(key) {
   }
 }
 
+const grammarExamples = `Exempel på attributiva indefinita pronomen:\n\nEn hemlös har inte någon bostad. (en bostad)\nDu behöver inte ta något bolån. (ett bolån)\nDe har inte några räkningar att betala. (räkningar – plural)\nEn hemlös har ingen bostad.\nDu behöver inget bolån.\nDe har inga räkningar att betala.\nDe ska flytta till en annan lägenhet. (en lägenhet)\nNi ska flytta till ett annat hus. (ett hus)\nI dag flyttar andra hyresgäster in i vårt flervåningshus. (hyresgäster – plural)\nJag tycker inte om all städning i huset. (en städning)\nAllt oväsen kommer från grannen som bor bredvid. (ett oväsen)\nAlla människor vill inte bo i villa. (människor – plural)\n\nExempel på självständiga indefinita pronomen:\n\nHar någon sett min mobiltelefon?\nFinns det några som vill åka hem nu?\nVarför är alla så ledsna? Har det hänt något/någonting?\nIngen har ringt mig i dag. Vad skönt!\nVarför är inga ungdomar intresserade?\n– Vad sa du?\n– Jag sa inget/ingenting!\nDet finns ingen annan än du i mitt liv.\nDet finns andra som vill sitta här.\nDet finns annat man kan göra i livet än att läsa svenska.\nIngen kan göra allt, men alla kan göra något.\nVänta! Jag har inte sagt allt!`;
+
 function renderContent() {
   const content = document.getElementById('content');
   if (currentWeek !== 1) {
@@ -306,11 +308,7 @@ function renderContent() {
     content.innerHTML = `
       <div class="card">
         <h2>Onsdag – Grammatik: Pronomen – Indefinita pronomen</h2>
-        <div class="clickable-text" id="grammarText">
-          <p><strong>Pronomen</strong></p>
-          <p><strong>Indefinita pronomen</strong> uttrycker någonting obestämt om personer eller saker.</p>
-          <p class="fa">ضمایر نامعین چیزی نامشخص درباره اشخاص یا اشیا بیان می‌کنند.</p>
-        </div>
+        <div class="clickable-text" id="grammarText"></div>
         <table>
           <tr>
             <th colspan="3">Attributiva (står med ett substantiv)</th>
@@ -322,37 +320,15 @@ function renderContent() {
           <tr><td>annan</td><td>annat</td><td>andra</td><td>annan, andra</td><td>annat</td></tr>
           <tr><td>all</td><td>allt</td><td>alla</td><td>alla</td><td>allt, allting</td></tr>
         </table>
-        <div class="clickable-text" id="grammarEx">
-          <p><strong>Exempel på attributiva indefinita pronomen:</strong></p>
-          <p>En hemlös har inte <span class="word" data-word="någon">någon</span> bostad. (en bostad)</p>
-          <p>Du behöver inte ta <span class="word" data-word="något">något</span> bolån. (ett bolån)</p>
-          <p>De har inte <span class="word" data-word="några">några</span> räkningar att betala. (räkningar – plural)</p>
-          <p>En hemlös har <span class="word" data-word="ingen">ingen</span> bostad.</p>
-          <p>Du behöver <span class="word" data-word="inget">inget</span> bolån.</p>
-          <p>De har <span class="word" data-word="inga">inga</span> räkningar att betala.</p>
-          <p>De ska flytta till en <span class="word" data-word="annan">annan</span> lägenhet. (en lägenhet)</p>
-          <p>Ni ska flytta till ett <span class="word" data-word="annat">annat</span> hus. (ett hus)</p>
-          <p>I dag flyttar <span class="word" data-word="andra">andra</span> hyresgäster in i vårt flervåningshus. (hyresgäster – plural)</p>
-          <p>Jag tycker inte om <span class="word" data-word="all">all</span> städning i huset. (en städning)</p>
-          <p><span class="word" data-word="allt">Allt</span> oväsen kommer från grannen som bor bredvid. (ett oväsen)</p>
-          <p><span class="word" data-word="alla">Alla</span> människor vill inte bo i villa. (människor – plural)</p>
-          <p style="margin-top:1.5rem"><strong>Exempel på självständiga indefinita pronomen:</strong></p>
-          <p>Har <span class="word" data-word="någon">någon</span> sett min mobiltelefon?</p>
-          <p>Finns det <span class="word" data-word="några">några</span> som vill åka hem nu?</p>
-          <p>Varför är <span class="word" data-word="alla">alla</span> så ledsna? Har det hänt <span class="word" data-word="något">något</span>/<span class="word" data-word="någonting">någonting</span>?</p>
-          <p><span class="word" data-word="ingen">Ingen</span> har ringt mig i dag. Vad skönt!</p>
-          <p>Varför är <span class="word" data-word="inga">inga</span> ungdomar intresserade?</p>
-          <p>– Vad sa du? – Jag sa <span class="word" data-word="inget">inget</span>/<span class="word" data-word="ingenting">ingenting</span>!</p>
-          <p>Det finns ingen <span class="word" data-word="annan">annan</span> än du i mitt liv.</p>
-          <p>Det finns <span class="word" data-word="andra">andra</span> som vill sitta här.</p>
-          <p>Det finns <span class="word" data-word="annat">annat</span> man kan göra i livet än att läsa svenska.</p>
-          <p><span class="word" data-word="ingen">Ingen</span> kan göra <span class="word" data-word="allt">allt</span>, men <span class="word" data-word="alla">alla</span> kan göra <span class="word" data-word="något">något</span>.</p>
-          <p>Vänta! Jag har inte sagt <span class="word" data-word="allt">allt</span>!</p>
-        </div>
+        <div class="clickable-text" id="grammarEx"></div>
         <button class="btn" onclick="startGrammarQuiz()">تمرین گرامر</button>
       </div>`;
-    attachClickHandlers(document.getElementById('grammarText'));
-    attachClickHandlers(document.getElementById('grammarEx'));
+    const gText = document.getElementById('grammarText');
+    const gEx = document.getElementById('grammarEx');
+    gText.innerHTML = makeClickable('Pronomen\n\nIndefinita pronomen uttrycker någonting obestämt om personer eller saker.');
+    gEx.innerHTML = makeClickable(grammarExamples).replace(/\\n/g, '<br>');
+    attachClickHandlers(gText);
+    attachClickHandlers(gEx);
   } else if (currentDay === 'tors') {
     content.innerHTML = `
       <div class="card">
